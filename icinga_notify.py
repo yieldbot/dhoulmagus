@@ -37,16 +37,16 @@ if 'test' in IcingaServer:
   Header = 'IcingaTest: '
 
 elif 'qa' in IcingaServer:
-  Header = 'IcingaQA: '
+  Header = 'QA: '
 elif 'prod' in IcingaServer:
-  Header = 'IcingaProd: '
+  Header = 'Prod: '
 else:
   Header = 'Icinga:'
 
-reply_to_address = 'alerts-goc@monster.com'
+reply_to_address = ''
 
 def create_msg(template_vars, alert, _To):
-  MailSender = 'Icinga Monitoring <svcicinga@' + HostName +'.be.monster.com>'
+  MailSender = 'Icinga Monitoring <user@' + HostName +'.example.com>'
   msg = MIMEMultipart()
   msg['From'] = MailSender
   msg['To'] = _To
@@ -55,10 +55,10 @@ def create_msg(template_vars, alert, _To):
   templateEnv = jinja2.Environment( loader=templateLoader )
   if alert == "service":
     msg['Subject'] = Header + g_NotificationType +  g_ServiceName + " on " + g_HostName + " is " + g_ServiceState
-    template_file = "/usr/local/icingadata/store/icinga_management_scripts/templates/service_email.jinja"
+    template_file = "/full/path/to/templates/service_email.jinja"
   elif alert == "host":
     msg['Subject'] = Header + g_NotificationType + ' Host ' + g_HostName + ' is ' +  g_HostState
-    template_file = "/usr/local/icingadata/store/icinga_management_scripts/templates/host_email.jinja"
+    template_file = "/full/path/to//templates/host_email.jinja"
   template = templateEnv.get_template( template_file )
   output_text = template.render( template_vars )
   body = MIMEText(output_text, 'HTML')
@@ -99,8 +99,8 @@ def main():
   parser.add_argument('--service_duration', help='The length of time a service has been in this state')
   parser.add_argument('--notification_comment', help='The comment associated with the host ack')
   parser.add_argument('--notification_author', help='The author of the host ack')
-  parser.add_argument('--business_hours_ins', help='GOC instructions for business hours')
-  parser.add_argument('--after_hours_ins', help='GOC instructions for after hours')
+  parser.add_argument('--business_hours_ins', help='instructions for business hours')
+  parser.add_argument('--after_hours_ins', help='instructions for after hours')
   args = vars(parser.parse_args())
 
   if args['notification_type'] == 'PROBLEM':
@@ -137,7 +137,7 @@ def main():
   _IPAddress = args['ip_address']
   _EventTime = args['event_time']
 
-  if Header != 'IcingaProd: ':
+  if Header != 'Prod: ':
     if args['escalated'] == '0':
       _Escalated = 'This message is NON-ACTIONABLE and has not been seen by the GOC'
     elif args['escalated'] == '1':
