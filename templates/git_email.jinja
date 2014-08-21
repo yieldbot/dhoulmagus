@@ -50,7 +50,7 @@ table
 </style>
 
 
-  <!--  <link rel="stylesheet" type="text/css" href="/usr/local/icingadata/store/icinga_management_scripts/templates/git_email.css"> -->
+  <!--  <link rel="stylesheet" type="text/css" href="/full/path/to/templates/git_email.css"> -->
     <title>Icinga Configuration Status</title>
     </head>
     <body>
@@ -72,7 +72,7 @@ table
         </tr>
         {% for repo in RepoName %}
               <tr>
-                <td> <a href="http://mongit201.be.monster.com/icinga/{{ repo }}">{{ repo }}</a> </td>
+                <td> <a href="http://example.com/icinga/{{ repo }}">{{ repo }}</a> </td>
            {% if "error" in RepoOutput[RepoName.index(repo)] %}
                 {% set row_class = "error" %}
            {% else %}
@@ -98,7 +98,7 @@ table
         --> 
         {% if GitModifiedFiles %} 
         <h3>Modified Files</h3>
-        <p>The following files have been modified since the last update and are now active.  For details please visit the GitLab <a href="http://mongit201.be.monster.com">dashboard</a>.<br />
+        <p>The following files have been modified since the last update and are now active.  For details please visit the GitLab <a href="http://example.com">dashboard</a>.<br />
         M = modified<br />
         A = added<br />
         D = deleted<br /></p>
