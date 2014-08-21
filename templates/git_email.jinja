@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<!-- need to create a layout that is relative so that the output is not dependent upon the screen -->
+
+<html lang="en">
+<head>
+<style>
+body 
+{
+    text-align:left;
+    font-family:Verdana, sans-serif;
+    font-size:8pt;
+    width:600px
+}
+
+th
+{
+    font-family:Verdana, sans-serif;
+    font-size:8pt;
+    text-align:left;
+    /*padding:10px*/
+    width=180px
+}
+
+td
+{
+    font-family:Verdana, sans-serif;
+    font-size:8pt;
+    /*padding:10px*/
+    text-align:left;
+}
+table
+{
+    text-align:left;
+    width:600px
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.error
+{
+    color:red;
+}
+
+.good
+{
+    color:green;
+}
+
+</style>
+
+
+  <!--  <link rel="stylesheet" type="text/css" href="/usr/local/icingadata/store/icinga_management_scripts/templates/git_email.css"> -->
+    <title>Icinga Configuration Status</title>
+    </head>
+    <body>
+
+        <!-- 
+        
+        Section:  Icinga Repository Status
+        Takes: RepoName, RepoOutput
+        Returns:  Nothing
+        
+        Function: Display the current status of the repo
+        
+          -->    
+        <h3>Icinga Repository Status</h3>
+        <table id="RepositoryStatusTable"> <!-- table needs to be padded and aligned -->
+        <tr>
+          <th>Repository</th>
+          <th>Status</th>
+        </tr>
+        {% for repo in RepoName %}
+              <tr>
+                <td> <a href="http://mongit201.be.monster.com/icinga/{{ repo }}">{{ repo }}</a> </td>
+           {% if "error" in RepoOutput[RepoName.index(repo)] %}
+                {% set row_class = "error" %}
+           {% else %}
+                {% set row_class = "good" %}
+           {% endif %}
+                <td class="{{ row_class }}"> {{ RepoOutput[RepoName.index(repo)] }} </td> 
+              </tr>
+        
+        {% endfor %}
+        </table>
+        <!-- I want to add a direct link into the file here.  Not sure how to do that yet as the file path is dependent upon the repo.
+             I will need to add in a way to determine the repo name based on the file??
+        -->
+       
+        <!-- 
+        
+        Section:  Modified Files
+        Takes:  GitModifiedFiles
+        Returns:  Nothing
+        
+        Function: Display a list of modified files along with the state change ([A]dded, [D]eleted, [M]odified)
+        
+        --> 
+        {% if GitModifiedFiles %} 
+        <h3>Modified Files</h3>
+        <p>The following files have been modified since the last update and are now active.  For details please visit the GitLab <a href="http://mongit201.be.monster.com">dashboard</a>.<br />
+        M = modified<br />
+        A = added<br />
+        D = deleted<br /></p>
+        <table id="ModifiedFilesTable">
+        <tr>
+          <th>File</th>
+          <th>Status</th>
+        </tr>
+        {% for item in GitModifiedFiles %}
+               <tr>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[0] }}</td>
+            </tr>
+        
+        {% else %}
+               <tr>
+                 <td> No Files Have Been Modified <td>
+               </tr>
+
+        {% endfor %}
+        </table>
+        </p>
+        {% endif %}
+
+
+        <h3>Icinga Status Check</h3>
+        <table id="ConfigStatusTable">
+        <tr>
+          <th>Configuration Check Status</th>
+        </tr>
+        <tr>
+        {% if "Failed" in CheckStatus %}
+          {% set row_class = "error" %}
+        {% else %}
+          {% set row_class = "good" %}  
+        {% endif %}
+        <td class="{{ row_class }}"> {{ CheckStatus  }} </td>  
+        </tr>
+        </table>
+        
+        <!-- 
+        
+        Section:  Icinga Services
+        Takes:  ServiceList, ServiceInfo
+        Returns:  Nothing
+        
+        Function: Display the current status and last restart of necessary services
+        
+         --> 
+
+        <h3>Icinga Services</h3>
+        <table id="ServiceStatusTable"> <!-- table needs to be padded and aligned -->
+        <tr>
+          <th>Service</th>
+          <th>Current Status</th>
+          <th>Last Restart</th>
+        </tr>
+        {% for service in ServiceList %}
+            {% for item in ServiceInfo[service] %}
+              {% if "DOWN" in item %}
+                {% set row_class = "error" %}
+              {% else %}
+                {% set row_class = "good" %}
+              {% endif %}
+            <tr>
+              <td> {{ service }} </td>
+              <td class="{{ row_class }}"> {{ item }} </td> 
+              <td> {{ ServiceInfo[service][item] }}</td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+
+    </body>
+    </html>
