@@ -101,10 +101,10 @@ table
 
 </style>
 <body>
-{% if IcingaEnv == 'IcingaProd: ' %}
-  <p> Icinga - <a href="http://icingaprod.be.monster.com">IcingaProd</a></p>
-{% elif IcingaEnv == 'IcingaQA: ' %}
-  <p> Icinga - <a href="http://icingaprod.be.monster.com">IcingaQA</a></p>
+{% if IcingaEnv == 'Prod: ' %}
+  <p> Icinga - <a href="">IcingaProd</a></p>
+{% elif IcingaEnv == 'QA: ' %}
+  <p> Icinga - <a href="">IcingaQA</a></p>
 {% else %}
   <p> Icinga - Test</a></p>
 {% endif %}
@@ -171,7 +171,7 @@ table
 
 <tr>
   <th class=odd>Contact List:</th>
-  <td class=odd><a href="http://mongit201.be.monster.com/icinga/prod_configuration_files/blob/master/icinga_cfg/objects/contacts.md#contact-email-addresses">{{ ContactGroup }}</a></td>
+  <td class=odd><a href="">{{ ContactGroup }}</a></td>
 </tr>
 
 <tr>
@@ -186,24 +186,24 @@ table
 
 </table>
 
-{% if IcingaEnv == 'IcingaProd: ' %}
-<a href="http://icingaprod.monster.com">Current Host Status</a><br />
-<a href="http://mongit201.be.monster.com/icinga/prod_configuration_files/blob/master/deployed/{{ IcingaServer }}/{{ HostName }}.md">Current Host Configuration</a><br />
-{% elif IcingaEnv == 'IcingaQA: ' %}
-<a href="http://icingaqa.monster.com">Current Host Status</a><br />
-  <a href="http://mongit201.be.monster.com/icinga/qa_configuration_files/blob/master/deployed/{{ IcingaServer }}/{{ HostName }}.cfg">Current Host Configuration</a><br />
+{% if IcingaEnv == 'Prod: ' %}
+<a href="http://example.com">Current Host Status</a><br />
+<a href="prod_configuration_files/blob/master/deployed/{{ IcingaServer }}/{{ HostName }}.md">Current Host Configuration</a><br />
+{% elif IcingaEnv == 'QA: ' %}
+<a href="http://example.com">Current Host Status</a><br />
+  <a href="qa_configuration_files/blob/master/deployed/{{ IcingaServer }}/{{ HostName }}.md">Current Host Configuration</a><br />
 {% else %}
 <a href="http://icingaqa.monster.com">Current Host Status</a><br />
     <a href="http://mongit201.be.monster.com/icinga/qa_configuration_files/blob/master/deployed/{{ IcingaServer }}/{{ HostName }}.cfg">Current Host Configuration</a><br />
 {% endif %}
-<a href="http://mongit201.be.monster.com/documentation/monitoring_documentation/blob/master/alert_docs/icinga_alert_handling_guidelines.md">How To Manage An Alert</a><br />
-<a href="http://mongit201.be.monster.com/documentation/monitoring_documentation/blob/master/monitoring_policies/policies_main.md">Monster Monitoring Policies</a><br />
+<a href="alert_docs/icinga_alert_handling_guidelines.md">How To Manage An Alert</a><br />
+<a href="monitoring_policies/policies_main.md">Monitoring Policies</a><br />
 </p>
 
 <p>
-The Monster Worldwide Global Operations Center<br />
-EMail: goc@monster.com<br />
-Voice: (978) 461-8833<br />
+The  Global Operations Center<br />
+EMail: <br />
+Voice: <br />
 </p>
 
 </body>
