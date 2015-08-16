@@ -1,0 +1,7 @@
+{
+  "coordinates": {
+    "org": "com.yieldbot.devops",
+    "name": "sensu-legacy-plugins",
+    "type": "gem"
+  }
+}
