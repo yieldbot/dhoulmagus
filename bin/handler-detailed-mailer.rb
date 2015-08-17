@@ -142,6 +142,7 @@ class DetailedMailer < Sensu::Handler
     # end
 
     begin
+      template_vars
       timeout 10 do
         Mail.deliver do
           to mail_to
@@ -149,7 +150,6 @@ class DetailedMailer < Sensu::Handler
           subject subject
           content_type 'text/html; charset=UTF-8'
           template = "#{template_path}/sensu/base_email.erb"
-          template_vars
           body ERB.new(File.read(template)).result
         end
 
