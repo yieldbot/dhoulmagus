@@ -5,7 +5,6 @@ require 'dhoulmagus/version'
 require 'mail'
 require 'timeout'
 require 'socket'
-require 'json'
 require 'erb'
 
 # patch to fix Exim delivery_method: https://github.com/mikel/mail/pull/546
@@ -25,12 +24,12 @@ class DetailedMailer < Sensu::Handler
     settings['devops-mailer'][name]
   end
 
-  def short_name(check_ouput)
-    check_ouput['event']['client']['name'] + '/' + check_ouput['event']['check']['name']
+  def short_name
+    @event['client']['name'] + '/' + @event['check']['name']
   end
 
-  def action_to_string(check_output)
-    check_ouput['event']['action'].eql?('resolve') ? 'RESOLVED' : 'ALERT'
+  def action_to_string
+    @event['action'].eql?('resolve') ? 'RESOLVED' : 'ALERT'
   end
 
   def define_status(status)
@@ -59,34 +58,28 @@ class DetailedMailer < Sensu::Handler
     end
   end
 
-  def template_vars(check_ouput)
-    data = check_output['event']
+  def template_vars
     @config = {
-      monitored_instance    => data['client']['name'],
-      incident_timestamp    => Time.at(data['check']['issued']),
-      instance_address      => data['client']['address'],
-      check_name            => data['check']['name'],
-      check_command         => data['check']['command'],
-      check_state           => define_status(data['check']['status']),
-      num_occurrences       => data['occurrences'],
+      monitored_instance    => @event['client']['name'],
+      incident_timestamp    => Time.at(@event['check']['issued']),
+      instance_address      => @event['client']['address'],
+      check_name            => @event['check']['name'],
+      check_command         => @event['check']['command'],
+      check_state           => define_status(@event['check']['status']),
+      num_occurrences       => @event['occurrences'],
       notification_comment  => '#YELLOW', # the comment added to a check to silence it
       notification_author   => '#YELLOW', # the user that silenced the check
-      condition_duration    => "#{data['check']['duration']}s",
+      condition_duration    => "#{@event['check']['duration']}s",
       check_output          => '#YELLOW',
       sensu_env             => define_sensu_env,
-      alert_type            => action_to_string(check_output),
+      alert_type            => action_to_string,
       notification_type     => alert_type,
       orginator             => 'sensu-monitoring',
       flapping              => '#YELLOW' # is the check flapping
     }
   end
 
-  def acquire_template(input)
-    File.read(input)
-  end
-
   def handle
-    check_output = JSON.parse(STDIN.read)
 
     mail_to                   = get_setting('mail_to')
     mail_from                 = get_setting('mail_from')
@@ -101,7 +94,7 @@ class DetailedMailer < Sensu::Handler
     smtp_authentication       = get_setting('smtp_authentication') || :plain
     smtp_enable_starttls_auto = get_setting('smtp_enable_starttls_auto') == 'false' ? false : true
 
-    subject = "#{define_sensu_env} #{action_to_string}  #{check_output['check']['name']} on #{check_output['client']['name']} is #{check_output['check']['status']}"
+    subject = "#{define_sensu_env} #{action_to_string}  #{@event['check']['name']} on #{@event['client']['name']} is #{@event['check']['status']}"
 
     # YELLOW
     gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.gsub("\n", '')
@@ -129,7 +122,7 @@ class DetailedMailer < Sensu::Handler
     end
 
     begin
-      template_vars(check_output)
+      template_vars
       timeout 10 do
         Mail.deliver do
           to mail_to
@@ -143,7 +136,7 @@ class DetailedMailer < Sensu::Handler
         puts 'mail -- sent alert for ' + short_name + ' to ' + mail_to.to_s
       end
     rescue Timeout::Error
-      puts 'mail -- timed out while attempting to ' + check_output['event']['action'] + ' an incident -- ' + short_name(check_output)
+      puts 'mail -- timed out while attempting to ' + @event['action'] + ' an incident -- ' + short_name
     end
   end
 end
