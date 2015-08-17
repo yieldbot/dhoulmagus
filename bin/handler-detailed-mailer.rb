@@ -102,7 +102,7 @@ class DetailedMailer < Sensu::Handler
 
     # YELLOW
     gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.gsub("\n",'')
-    template_path = "#{gem_base}/gems/dhoulmangus-#{Dhoulmagus::Version::STRING}/templates"
+    template_path = "#{gem_base}/gems/dhoulmagus-#{Dhoulmagus::Version::STRING}/templates"
 
     Mail.defaults do
       delivery_options = {
