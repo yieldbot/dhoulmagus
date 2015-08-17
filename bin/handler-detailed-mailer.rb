@@ -59,7 +59,7 @@ class DetailedMailer < Sensu::Handler
     end
   end
 
-  def tempate_vars
+  def template_vars
     @config = {
       monitored_instance    => @event['client']['name'],
       incident_timestamp    => Time.at(@event['check']['issued']),
