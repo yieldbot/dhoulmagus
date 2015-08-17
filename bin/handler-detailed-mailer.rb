@@ -98,11 +98,10 @@ class DetailedMailer < Sensu::Handler
     smtp_authentication       = get_setting('smtp_authentication') || :plain
     smtp_enable_starttls_auto = get_setting('smtp_enable_starttls_auto') == 'false' ? false : true
 
-    # subject = "#{action_to_string} - #{short_name}: #{@event['check']['notification']}"
-
     subject = "#{define_sensu_env} #{action_to_string}  #{@event['check']['name']} on #{@event['client']['name']} is #{@event['check']['status']}"
 
-    gem_base = ENV['INSTALLATION DIRECTORY']
+    # YELLOW
+    gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`
     template_path = "#{gem_base}/dhoulmangus-#{Dhoulmagus::Version::STRING}/templates"
 
     Mail.defaults do
