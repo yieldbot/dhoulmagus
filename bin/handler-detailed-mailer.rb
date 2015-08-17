@@ -1,10 +1,11 @@
 #! /usr/bin/env ruby
 
 require 'sensu-handler'
-gem 'mail', '~> 2.5.4'
 require 'mail'
 require 'timeout'
 require 'socket'
+require 'json'
+require 'erb'
 
 # patch to fix Exim delivery_method: https://github.com/mikel/mail/pull/546
 module ::Mail
@@ -20,7 +21,7 @@ end
 
 class DetailedMailer < Sensu::Handler
   def get_setting(name)
-    settings['<%= @config_key %>'][name]
+    settings['devops-mailer'][name]
   end
 
   def short_name
@@ -145,7 +146,7 @@ class DetailedMailer < Sensu::Handler
           subject subject
           content_type 'text/html; charset=UTF-8'
           template = 'templates/base_email.erb'
-          body ERB.new(acquire_template(template)).result
+          body ERB.new(File.read(template)).result
         end
 
         puts 'mail -- sent alert for ' + short_name + ' to ' + mail_to.to_s
