@@ -1,6 +1,7 @@
 #! /usr/bin/env ruby
 
 require 'sensu-handler'
+require 'dhoulmagus/version'
 require 'mail'
 require 'timeout'
 require 'socket'
@@ -101,6 +102,9 @@ class DetailedMailer < Sensu::Handler
 
     subject = "#{define_sensu_env} #{action_to_string}  #{@event['check']['name']} on #{@event['client']['name']} is #{@event['check']['status']}"
 
+    gem_base = ENV['INSTALLATION DIRECTORY']
+    template_path = "#{gem_base}/dhoulmangus-#{Dhoulmagus::Version::STRING}/templates"
+
     Mail.defaults do
       delivery_options = {
         address: smtp_address,
@@ -145,7 +149,7 @@ class DetailedMailer < Sensu::Handler
           from mail_from
           subject subject
           content_type 'text/html; charset=UTF-8'
-          template = '../templates/sensu/base_email.erb'
+          template = "#{template_path}/sensu/base_email.erb"
           body ERB.new(File.read(template)).result
         end
 
