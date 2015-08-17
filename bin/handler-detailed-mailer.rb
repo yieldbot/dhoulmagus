@@ -26,11 +26,11 @@ class DetailedMailer < Sensu::Handler
   end
 
   def short_name(check_ouput)
-    check_ouput['client']['name'] + '/' + check_ouput['check']['name']
+    check_ouput['event']['client']['name'] + '/' + check_ouput['event']['check']['name']
   end
 
-  def action_to_string
-    @event['action'].eql?('resolve') ? 'RESOLVED' : 'ALERT'
+  def action_to_string(check_output)
+    check_ouput['event']['action'].eql?('resolve') ? 'RESOLVED' : 'ALERT'
   end
 
   def define_status(status)
@@ -60,20 +60,21 @@ class DetailedMailer < Sensu::Handler
   end
 
   def template_vars(check_ouput)
+    data = check_output['event']
     @config = {
-      monitored_instance    => check_ouput['client']['name'],
-      incident_timestamp    => Time.at(input['check']['issued']),
-      instance_address      => check_ouput['client']['address'],
-      check_name            => check_ouput['check']['name'],
-      check_command         => check_ouput['check']['command'],
-      check_state           => define_status(check_ouput['check']['status']),
-      num_occurrences       => check_ouput['occurrences'],
+      monitored_instance    => data['client']['name'],
+      incident_timestamp    => Time.at(data['check']['issued']),
+      instance_address      => data['client']['address'],
+      check_name            => data['check']['name'],
+      check_command         => data['check']['command'],
+      check_state           => define_status(data['check']['status']),
+      num_occurrences       => data['occurrences'],
       notification_comment  => '#YELLOW', # the comment added to a check to silence it
       notification_author   => '#YELLOW', # the user that silenced the check
-      condition_duration    => "#{input['check']['duration']}s",
+      condition_duration    => "#{data['check']['duration']}s",
       check_output          => '#YELLOW',
       sensu_env             => define_sensu_env,
-      alert_type            => action_to_string,
+      alert_type            => action_to_string(check_output),
       notification_type     => alert_type,
       orginator             => 'sensu-monitoring',
       flapping              => '#YELLOW' # is the check flapping
@@ -142,7 +143,7 @@ class DetailedMailer < Sensu::Handler
         puts 'mail -- sent alert for ' + short_name + ' to ' + mail_to.to_s
       end
     rescue Timeout::Error
-      puts 'mail -- timed out while attempting to ' + check_output['action'] + ' an incident -- ' + short_name(check_output)
+      puts 'mail -- timed out while attempting to ' + check_output['event']['action'] + ' an incident -- ' + short_name(check_output)
     end
   end
 end
