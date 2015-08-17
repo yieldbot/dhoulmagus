@@ -101,7 +101,7 @@ class DetailedMailer < Sensu::Handler
     subject = "#{define_sensu_env} #{action_to_string}  #{@event['check']['name']} on #{@event['client']['name']} is #{@event['check']['status']}"
 
     # YELLOW
-    gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`
+    gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.gsub("\n",'')
     template_path = "#{gem_base}/dhoulmangus-#{Dhoulmagus::Version::STRING}/templates"
 
     Mail.defaults do
