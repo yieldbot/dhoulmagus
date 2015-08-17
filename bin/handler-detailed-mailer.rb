@@ -145,7 +145,7 @@ class DetailedMailer < Sensu::Handler
           from mail_from
           subject subject
           content_type 'text/html; charset=UTF-8'
-          template = 'templates/base_email.erb'
+          template = '../templates/sensu/base_email.erb'
           body ERB.new(File.read(template)).result
         end
 
