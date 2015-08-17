@@ -60,22 +60,22 @@ class DetailedMailer < Sensu::Handler
 
   def template_vars
     @config = {
-      monitored_instance    => @event['client']['name'],
-      incident_timestamp    => Time.at(@event['check']['issued']),
-      instance_address      => @event['client']['address'],
-      check_name            => @event['check']['name'],
-      check_command         => @event['check']['command'],
-      check_state           => define_status(@event['check']['status']),
-      num_occurrences       => @event['occurrences'],
-      notification_comment  => '#YELLOW', # the comment added to a check to silence it
-      notification_author   => '#YELLOW', # the user that silenced the check
-      condition_duration    => "#{@event['check']['duration']}s",
-      check_output          => '#YELLOW',
-      sensu_env             => define_sensu_env,
-      alert_type            => action_to_string,
-      notification_type     => alert_type,
-      orginator             => 'sensu-monitoring',
-      flapping              => '#YELLOW' # is the check flapping
+      'monitored_instance'    => @event['client']['name'],
+      'incident_timestamp'    => Time.at(@event['check']['issued']),
+      'instance_address'      => @event['client']['address'],
+      'check_name'            => @event['check']['name'],
+      'check_command'         => @event['check']['command'],
+      'check_state'           => define_status(@event['check']['status']),
+      'num_occurrences'       => @event['occurrences'],
+      'notification_comment'  => '#YELLOW', # the comment added to a check to silence it
+      'notification_author'   => '#YELLOW', # the user that silenced the check
+      'condition_duration'    => "#{@event['check']['duration']}s",
+      'check_output'          => '#YELLOW',
+      'sensu_env'             => define_sensu_env,
+      'alert_type'            => action_to_string,
+      'notification_type'     => action_to_string,
+      'orginator'             => 'sensu-monitoring',
+      'flapping'              => '#YELLOW' # is the check flapping
     }
   end
 

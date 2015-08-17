@@ -35,7 +35,7 @@ td.odd  { background-color:#FFFFFF; }
 table
 {
     text-align:left;
-    width:600px
+    width:600px;
     margin-left:auto;
     margin-right:auto;
 }
@@ -123,11 +123,11 @@ table
     <% else %>
       <% row_class = 'even' %>
     <% endif %>
-    <td class="<%= @row_class %>"><%= notification_type %></td>
+    <td class="<%= @row_class %>"><%= @config['notification_type'] %></td>
   </tr>
 
   <% if @config['orginator'] == 'sensu-monitoring' %>
-    <%= ERB.new(IO.read(service.erb"), nil, nil, '_erbout2').result %>
+    <%= ERB.new(IO.read(service_email.erb"), nil, nil, '_erbout2').result %>
     <% endif %>
 
 
