@@ -98,6 +98,8 @@ class DetailedMailer < Sensu::Handler
     # YELLOW
     gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.gsub("\n", '')
     template_path = "#{gem_base}/gems/dhoulmagus-#{Dhoulmagus::Version::STRING}/templates"
+    template = "#{template_path}/sensu/base_email.erb"
+    template_vars
 
     Mail.defaults do
       delivery_options = {
@@ -121,14 +123,12 @@ class DetailedMailer < Sensu::Handler
     end
 
     begin
-      template_vars
       timeout 10 do
         Mail.deliver do
           to mail_to
           from mail_from
           subject subject
           content_type 'text/html; charset=UTF-8'
-          template = "#{template_path}/sensu/base_email.erb"
           body ERB.new(File.read(template)).result
         end
 
