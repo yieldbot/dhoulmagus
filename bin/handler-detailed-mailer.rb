@@ -80,7 +80,6 @@ class DetailedMailer < Sensu::Handler
   end
 
   def handle
-
     mail_to                   = get_setting('mail_to')
     mail_from                 = get_setting('mail_from')
 
