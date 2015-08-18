@@ -127,7 +127,7 @@ table
   </tr>
 
   <% if @config['orginator'] == 'sensu-monitoring' %>
-    <%= ERB.new(IO.read("service_email.erb"), nil, nil, '_erbout2').result %>
+    <%= ERB.new(IO.read("#{@template_path}/service_email.erb"), nil, nil, '_erbout2').result(binding) %>
     <% end %>
 
 

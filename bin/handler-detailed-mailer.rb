@@ -42,6 +42,8 @@ class DetailedMailer < Sensu::Handler
       return 'CRITICAL'
     when '3'
       return 'UNKNOWN'
+    when '127'
+      return 'CHECK CFG ERROR'
     else
       return 'ERROR'
     end
@@ -53,6 +55,8 @@ class DetailedMailer < Sensu::Handler
       return 'Prod: '
     elsif sensu_server.match(/^dev/)
       return 'Dev: '
+    elsif sensu_server.match(/^vagrant/)
+      return 'Vagrant: '
     else
       return 'Test: '
     end
@@ -97,9 +101,11 @@ class DetailedMailer < Sensu::Handler
 
     # YELLOW
     gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.gsub("\n", '')
-    template_path = "#{gem_base}/gems/dhoulmagus-#{Dhoulmagus::Version::STRING}/templates"
-    template = "#{template_path}/sensu/base_email.erb"
+    @template_path = "#{gem_base}/gems/dhoulmagus-#{Dhoulmagus::Version::STRING}/templates/sensu"
+    template = "#{template_path}/base_email.erb"
     template_vars
+    renderer = ERB.new(File.read(template))
+    msg = renderer.result(binding)
 
     Mail.defaults do
       delivery_options = {
@@ -129,7 +135,7 @@ class DetailedMailer < Sensu::Handler
           from mail_from
           subject subject
           content_type 'text/html; charset=UTF-8'
-          body ERB.new(File.read(template)).result
+          body msg
         end
 
         puts 'mail -- sent alert for ' + short_name + ' to ' + mail_to.to_s
