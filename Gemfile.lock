@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dhoulmagus (0.0.19)
+    dhoulmagus (0.0.20)
       mail (= 2.5.4)
       sensu-plugin (= 1.2.0)
 
