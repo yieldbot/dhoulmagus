@@ -94,7 +94,7 @@ class DetailedMailer < Sensu::Handler
     smtp_authentication       = get_setting('smtp_authentication') || :plain
     smtp_enable_starttls_auto = get_setting('smtp_enable_starttls_auto') == 'false' ? false : true
 
-    subject = "#{define_sensu_env} #{action_to_string}  #{@event['check']['name']} on #{@event['client']['name']} is #{@event['check']['status']}"
+    subject = "#{define_sensu_env} #{action_to_string}  #{@event['check']['name']} on #{@event['client']['name']} is #{define_status(@event['check']['status'])}"
 
     # YELLOW
     gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.gsub("\n", '')

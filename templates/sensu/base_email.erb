@@ -107,7 +107,7 @@ table
   <p> Sensu - <a href="">Sensu Development</a></p>
 <% else %>
   <p> Sensu - Test</a></p>
-<% endif %>
+<% end %>
 
 <table>
   <tr>
@@ -117,18 +117,18 @@ table
   <tr>
     <th class=even>Notification Type:</th>
     <% if @config['notification_type'] == 'ALERT' %>
-      <% row_class = 'problem' %>
-    <% elif @config['notification_type'] == 'RESOLVED' %>
-      <% row_class = 'recovery' %>
+      <% @row_class = 'problem' %>
+    <% elsif @config['notification_type'] == 'RESOLVED' %>
+      <% @row_class = 'recovery' %>
     <% else %>
-      <% row_class = 'even' %>
-    <% endif %>
+      <% @row_class = 'even' %>
+    <% end %>
     <td class="<%= @row_class %>"><%= @config['notification_type'] %></td>
   </tr>
 
   <% if @config['orginator'] == 'sensu-monitoring' %>
     <%= ERB.new(IO.read(service_email.erb"), nil, nil, '_erbout2').result %>
-    <% endif %>
+    <% end %>
 
 
 <tr>
@@ -168,30 +168,9 @@ table
 
 <tr>
   <th class=odd>Author:</th>
-  <td class=odd><% @config['notification_author'] %></td>
+  <td class=odd><%= @config['notification_author'] %></td>
 </tr>
 
 </table>
-<!--
-{% if IcingaEnv == 'Prod: ' %}
-<a href="http://example.com">Current Host Status</a><br />
-<a href="prod_configuration_files/blob/master/deployed/{{ IcingaServer }}/{{ HostName }}.md">Current Host Configuration</a><br />
-{% elif IcingaEnv == 'QA: ' %}
-<a href="http://example.com">Current Host Status</a><br />
-  <a href="qa_configuration_files/blob/master/deployed/{{ IcingaServer }}/{{ HostName }}.md">Current Host Configuration</a><br />
-{% else %}
-<a href="http://icingaqa.monster.com">Current Host Status</a><br />
-    <a href="/qa_configuration_files/blob/master/deployed/{{ IcingaServer }}/{{ HostName }}.cfg">Current Host Configuration</a><br />
-{% endif %}
-<a href="alert_docs/icinga_alert_handling_guidelines.md">How To Manage An Alert</a><br />
-<a href="monitoring_policies/policies_main.md">Monitoring Policies</a><br />
-</p>
-
-<p>
-The  Global Operations Center<br />
-EMail: <br />
-Voice: <br />
-</p> -->
-
 </body>
 </html>
