@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.summary                = 'Scripts and templates for generating useful monitoring alerts'
   s.version                = Dhoulmagus::Version::STRING
 
-  s.files                  = Dir['{bin}/**/*', '{lib,spec}/**/*.rb', 'templates/**/*.erb', 'LICENSE', '*.md']
+  s.files                  = Dir['{bin}/**/*', '{lib,spec}/**/*.rb', 'templates/**/*.erb', 'images/*.jpg', 'LICENSE', '*.md']
   s.executables            = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
   s.test_files             = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths          = %w(lib)

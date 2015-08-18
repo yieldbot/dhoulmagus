@@ -1,105 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
 <head>
-<style>
-body
-{
-    font-family:Verdana, sans-serif;
-    font-size:8pt;
-    width:600px;
-}
-
-th
-{
-    font-family:Verdana, sans-serif;
-    font-size:8pt;
-    text-align:left;
-    width:180px;
-}
-
-th.even { background-color:#D9D9D9; }
-th.odd  { background-color:#F2F2F2; }
-
-
-
-td
-{
-    font-family:Verdana, sans-serif;
-    font-size:8pt;
-    text-align:left;
-}
-
-td.even { background-color:#F2F2F2; }
-td.odd  { background-color:#FFFFFF; }
-
-table
-{
-    text-align:left;
-    width:600px;
-    margin-left:auto;
-    margin-right:auto;
-}
-
-.error
-{
-    color:red;
-}
-
-.good
-{
-    color:green;
-}
-
-
-.logo
- {
-    float:left;
-    margin:10px 10px 10px;
-    vertical-align:middle
- }
-
-.Yieldbot
- {
-   background-color: #660099;
-   color: #ffffff;
- }
-
-.problem { color:#FF8080; }
-
-.recovery { color:#7DC56C; }
-
-.acknowledgement { color:#006600; }
-
-.downtimestart { color:#80FFFF; }
-
-.downtimeend { color:#80FF80; }
-
-.downtimecanceled { color:#FFFF80; }
-
-.flappingstart { color:#FF8080; }
-
-.flappingend { color:#80FF80; }
-
-.flappingdisabled { color:#FFFF80; }
-
-.down { color:#FF8080; }
-
-.critical { color:#FF8080; }
-
-.warning { color:#FFFF80; }
-
-.unreachable { color:#80FFFF; }
-
-.pending { color:#80FFFF; }
-
-.unknown { color:#DE0AFF; }
-
-.up { color:#80FF80; }
-
-.ok { color:#80FF80; }
-
-</style>
-<body>
+<body style="font-family:Verdana, sans-serif;font-size:8pt;width:600px;">
 
 <% if @config['sensu_env'] == 'Prod: ' %>
   <p> Sensu - <a href="">Sensu Production</a></p>
@@ -109,66 +11,93 @@ table
   <p> Sensu - Test</a></p>
 <% end %>
 
-<table>
+<table style="text-align:left;width:600px;margin-left:auto;margin-right:auto;">
   <tr>
-    <th colspan=2 class=Yieldbot></th>
+    <th colspan=2 style="background-color:#660099;color:#ffffff;font-family:Verdana, sans-serif;font-size:8pt;text-align:left;width:180px;"></th>
   </tr>
 
   <tr>
-    <th class=even>Notification Type:</th>
+    <th style="background-color:#D9D9D9;">Notification Type:</th>
     <% if @config['notification_type'] == 'ALERT' %>
-      <% @row_class = 'problem' %>
+   <% @row_style = "color:#FF0000;background-color:#F2F2F2;" %>
     <% elsif @config['notification_type'] == 'RESOLVED' %>
-      <% @row_class = 'recovery' %>
+      <% @row_style = "color:#33CC33;background-color:#F2F2F2;" %>
     <% else %>
-      <% @row_class = 'even' %>
+      <% @row_style = "background-color:#F2F2F2;color:FF6600" %>
     <% end %>
-    <td class="<%= @row_class %>"><%= @config['notification_type'] %></td>
+    <td style="<%= @row_style %>"><%= @config['notification_type'] %></td>
   </tr>
 
-  <% if @config['orginator'] == 'sensu-monitoring' %>
-    <%= ERB.new(IO.read("#{@template_path}/service_email.erb"), nil, nil, '_erbout2').result(binding) %>
-    <% end %>
+<tr>
+    <th style="background-color:#F2F2F2;">Service Name:</th>
+    <td style="background-color:#D9D9D9;"><%= @config['check_name'] %></td>
+  </tr>
+
+<tr>
+  <th style="background-color:#D9D9D9;">Service State:</th>
+  <% if @config['check_state'] == 'OK' %>
+    <% @row_style = 'color:#33CC33;background-color:#F2F2F2;' %>
+  <% elsif @config['check_state'] == 'UNKNOWN' %>
+    <% @row_style = 'color:#FF6600;background-color:#F2F2F2;' %>
+  <% elsif @config['check_state'] == 'CRITICAL' %>
+    <% @row_style = 'color:#FF0000;background-color:#F2F2F2;' %>
+  <% elsif @config['check_state'] == 'WARNING' %>
+    <% @row_style = 'color:#B2B200;background-color:#F2F2F2;' %>
+  <% else %>
+    <% @row_style = 'background-color:#F2F2F2;color:FF6600;' %>
+  <% end %>
+  <td style="<%= @row_style %>"><%= @config['check_state'] %></td>
+</tr>
 
 
 <tr>
-  <th class=even>Host Name:</th>
-  <td class=even><%= @config['monitored_instance'] %></td>
+  <th style="background-color:#F2F2F2;">Service Duration:</th>
+  <td style="background-color:#D9D9D9;"><%= @config['condition_duration'] %></td>
 </tr>
 
 <tr>
-  <th class=odd>IP Address:</th>
-  <td class=odd><%= @config['instance_address'] %></td>
+  <th style="background-color:#D9D9D9;">Service Output:</th>
+  <td style="background-color:#F2F2F2;"><%= @config['check_output'] %></td>
 </tr>
 
 <tr>
-  <th class=even>Event Time:</th>
-  <td class=even><%= @config['incident_timestamp'] %></td>
+  <th style="background-color:#F2F2F2;">Host Name:</th>
+  <td style="background-color:#D9D9D9;"><%= @config['monitored_instance'] %></td>
 </tr>
 
 <tr>
-  <th class=odd>Business Hours Instructions:</th>
-  <td class=odd></td>
+  <th style="background-color:#D9D9D9;">IP Address:</th>
+  <td style="background-color:#F2F2F2;"><%= @config['instance_address'] %></td>
 </tr>
 
 <tr>
-  <th class=even>After Hours Instructions:</th>
-  <td class=even></td>
+  <th style="background-color:#F2F2F2;">Event Time:</th>
+  <td style="background-color:#D9D9D9;"><%= @config['incident_timestamp'] %></td>
 </tr>
 
 <tr>
-  <th class=odd>Contact List:</th>
-  <td class=odd><a href=""></a></td>
+  <th style="background-color:#D9D9D9;">Business Hours Instructions:</th>
+  <td style="background-color:#F2F2F2;"></td>
 </tr>
 
 <tr>
-  <th class=even>Comment:</th>
-  <td class=even><%= @config['notification_comment'] %></td>
+  <th style="background-color:#F2F2F2;">After Hours Instructions:</th>
+  <td style="background-color:#D9D9D9;"></td>
 </tr>
 
 <tr>
-  <th class=odd>Author:</th>
-  <td class=odd><%= @config['notification_author'] %></td>
+  <th style="background-color:#D9D9D9;">Contact List:</th>
+  <td style="background-color:#F2F2F2;"><a href=""></a></td>
+</tr>
+
+<tr>
+  <th style="background-color:#F2F2F2;">Comment:</th>
+  <td style="background-color:#D9D9D9;"><%= @config['notification_comment'] %></td>
+</tr>
+
+<tr>
+  <th style="background-color:#D9D9D9;">Author:</th>
+  <td style="background-color:#F2F2F2;"><%= @config['notification_author'] %></td>
 </tr>
 
 </table>
