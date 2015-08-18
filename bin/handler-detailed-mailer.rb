@@ -102,7 +102,7 @@ class DetailedMailer < Sensu::Handler
     # YELLOW
     gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.gsub("\n", '')
     @template_path = "#{gem_base}/gems/dhoulmagus-#{Dhoulmagus::Version::STRING}/templates/sensu"
-    template = "#{template_path}/base_email.erb"
+    template = "#{@template_path}/base_email.erb"
     template_vars
     renderer = ERB.new(File.read(template))
     msg = renderer.result(binding)
