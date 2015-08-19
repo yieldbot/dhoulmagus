@@ -25,9 +25,8 @@ class DetailedMailer < Sensu::Handler
   end
 
   def define_check_state_duration
-    return ''
+    ''
   end
-
 
   def short_name
     "#{monitored_instance}/#{check_name}"
@@ -81,7 +80,7 @@ class DetailedMailer < Sensu::Handler
   end
 
   def define_source
-    return 'sensu'
+    'sensu'
   end
 
   def template_vars
@@ -99,7 +98,7 @@ class DetailedMailer < Sensu::Handler
       'sensu_env'             => define_sensu_env,
       'notification_type'     => define_notification_type,
       'source'                => define_source,
-      'check_state_duration'  => define_check_state_duration,
+      'check_state_duration'  => define_check_state_duration
     }
   end
 
@@ -116,12 +115,12 @@ class DetailedMailer < Sensu::Handler
       'smtp_username'             => get_setting('smtp_username') || nil,
       'smtp_password'             => get_setting('smtp_password') || nil,
       'smtp_authentication'       => get_setting('smtp_authentication') || :plain,
-      'smtp_enable_starttls_auto' => get_setting('smtp_enable_starttls_auto') == 'false' ? false : true,
+      'smtp_enable_starttls_auto' => get_setting('smtp_enable_starttls_auto') == 'false' ? false : true
     }
+  end
 
   def handle
     define_mail_settings
-
 
     # YELLOW
     gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.gsub("\n", '')
