@@ -29,7 +29,7 @@ class DetailedMailer < Sensu::Handler
   end
 
   def short_name
-    "#{monitored_instance}/#{check_name}"
+    "#{@config['monitored_instance']}/#{@config['check_name']}"
   end
 
   def define_notification_type
@@ -86,7 +86,7 @@ class DetailedMailer < Sensu::Handler
   def template_vars
     @config = {
       'monitored_instance'    => @event['client']['name'], # this will be the snmp host if using traps
-      'sensu-client'          => @event['client']['name'],
+      'sensu_client'          => @event['client']['name'],
       'incident_timestamp'    => Time.at(@event['check']['issued']),
       'instance_address'      => @event['client']['address'],
       'check_name'            => @event['check']['name'],
