@@ -25,25 +25,34 @@ class DetailedMailer < Sensu::Handler
   end
 
   def short_name
-    @event['client']['name'] + '/' + @event['check']['name']
+    "#{monitored_instance}/#{check_name}"
   end
 
-  def action_to_string
-    @event['action'].eql?('resolve') ? 'RESOLVED' : 'ALERT'
+  def define_notification_type
+    case @event['action']
+    when 'resolve'
+      return 'CLEAR'
+    when 'create'
+      return 'ALERT'
+    when 'flapping'
+      return 'FLAPPING'
+    else
+      return 'NOTICE'
+    end
   end
 
-  def define_status(status)
-    case status
-    when '0'
+  def define_status
+    case @event['check']['status']
+    when 0
       return 'OK'
-    when '1'
+    when 1
       return 'WARNING'
-    when '2'
+    when 2
       return 'CRITICAL'
-    when '3'
+    when 3
       return 'UNKNOWN'
-    when '127'
-      return 'CHECK CFG ERROR'
+    when 127
+      return 'CONFIG ERROR'
     else
       return 'ERROR'
     end
@@ -55,6 +64,10 @@ class DetailedMailer < Sensu::Handler
       return 'Prod: '
     elsif sensu_server.match(/^dev/)
       return 'Dev: '
+    elsif sensu_server.match(/^FOO/)
+      return 'Stg: '
+    elsif sensu_server.match(/^BAR/)
+      return 'KitchenCI: '
     elsif sensu_server.match(/^vagrant/)
       return 'Vagrant: '
     else
@@ -64,22 +77,24 @@ class DetailedMailer < Sensu::Handler
 
   def template_vars
     @config = {
-      'monitored_instance'    => @event['client']['name'],
+      'monitored_instance'    => @event['client']['name'], # this will be the snmp host if using traps
+      'sensu-client'          => @event['client']['name'],
       'incident_timestamp'    => Time.at(@event['check']['issued']),
       'instance_address'      => @event['client']['address'],
       'check_name'            => @event['check']['name'],
-      'check_command'         => @event['check']['command'],
-      'check_state'           => define_status(@event['check']['status']),
-      'num_occurrences'       => @event['occurrences'],
-      'notification_comment'  => '#YELLOW', # the comment added to a check to silence it
-      'notification_author'   => '#YELLOW', # the user that silenced the check
-      'condition_duration'    => "#{@event['check']['duration']}s",
-      'check_output'          => '#YELLOW',
+      # 'check_command'         => @event['check']['command'],
+      'check_state'           => define_status,
+      # 'num_occurrences'       => @event['occurrences'],
+      'notification_comment'  => '', # the comment added to a check to silence it
+      'notification_author'   => '', # the user that silenced the check
+      'contact_list'          => '',
+      # 'condition_duration'    => "#{@event['check']['duration']}s",
+      'check_output'          => @event['check']['output'],
       'sensu_env'             => define_sensu_env,
-      'alert_type'            => action_to_string,
-      'notification_type'     => action_to_string,
+      # 'alert_type'            => alert_type,
+      'notification_type'     => define_notification_type,
       'orginator'             => 'sensu-monitoring',
-      'flapping'              => '#YELLOW' # is the check flapping
+      # 'flapping'              => '#YELLOW' # is the check flapping
     }
   end
 
@@ -97,8 +112,6 @@ class DetailedMailer < Sensu::Handler
     smtp_authentication       = get_setting('smtp_authentication') || :plain
     smtp_enable_starttls_auto = get_setting('smtp_enable_starttls_auto') == 'false' ? false : true
 
-    subject = "#{define_sensu_env} #{action_to_string}  #{@event['check']['name']} on #{@event['client']['name']} is #{define_status(@event['check']['status'])}"
-
     # YELLOW
     gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.gsub("\n", '')
     @template_path = "#{gem_base}/gems/dhoulmagus-#{Dhoulmagus::Version::STRING}/templates/sensu"
@@ -106,6 +119,7 @@ class DetailedMailer < Sensu::Handler
     template_vars
     renderer = ERB.new(File.read(template))
     msg = renderer.result(binding)
+    subject = "#{define_sensu_env} #{define_notification_type}  #{@config['check_name']} on #{@config['monitored_instance']} is #{@config['check_state']}"
 
     Mail.defaults do
       delivery_options = {
@@ -141,7 +155,7 @@ class DetailedMailer < Sensu::Handler
         puts 'mail -- sent alert for ' + short_name + ' to ' + mail_to.to_s
       end
     rescue Timeout::Error
-      puts 'mail -- timed out while attempting to ' + @event['action'] + ' an incident -- ' + short_name
+      puts 'mail -- timed out while attempting to ' + define_notification_type + ' an incident -- ' + short_name
     end
   end
 end

@@ -1,14 +1,20 @@
-!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
 <head>
 <body style="font-family:Verdana, sans-serif;font-size:8pt;width:600px;">
 
 <% if @config['sensu_env'] == 'Prod: ' %>
-  <p> Sensu - <a href="">Sensu Production</a></p>
-<% elsif @config['sensu_env'] == 'QA: ' %>
-  <p> Sensu - <a href="">Sensu Development</a></p>
+  <p> Sensu - <a href="">Production</a></p>
+<% elsif @config['sensu_env'] == 'Dev:: ' %>
+  <p> Sensu - <a href="">Development</a></p>
+<% elsif @config['sensu_env'] == 'KitchenCI:: ' %>
+  <p> Sensu - <a href="">KitchenCI</a></p>
+<% elsif @config['sensu_env'] == 'Stg: ' %>
+  <p> Sensu - <a href="">Staging</a></p>
+<% elsif @config['sensu_env'] == 'Vagrant: ' %>
+  <p> Sensu - <a href="">Vagrant</a></p>
 <% else %>
-  <p> Sensu - Test</a></p>
+  <p> Sensu - Testing</a></p>
 <% end %>
 
 <table style="text-align:left;width:600px;margin-left:auto;margin-right:auto;">
@@ -16,89 +22,98 @@
     <th colspan=2 style="background-color:#660099;color:#ffffff;font-family:Verdana, sans-serif;font-size:8pt;text-align:left;width:180px;"></th>
   </tr>
 
+  <% if @config['check_latency'] == 'HIGH' %>
+    <tr>
+      <th colspan=2 style="color:#FFOOOO;font-family:Verdana, sans-serif;font-size:10pt;text-align:left;width:180px;">High Check Latency - Accuracy Verification Needed</th>
+    </tr>
+  <% end %>
+
   <tr>
     <th style="background-color:#D9D9D9;">Notification Type:</th>
     <% if @config['notification_type'] == 'ALERT' %>
-   <% @row_style = "color:#FF0000;background-color:#F2F2F2;" %>
-    <% elsif @config['notification_type'] == 'RESOLVED' %>
+      <% @row_style = "color:#FF0000;background-color:#F2F2F2;" %>
+    <% elsif @config['notification_type'] == 'CLEAR' %>
       <% @row_style = "color:#33CC33;background-color:#F2F2F2;" %>
+    <% elsif @config['notification_type'] == 'FLAPPING' %>
+      <% @row_style = "color:#0000FF;background-color:#F2F2F2;" %>
+    <% elsif @config['notification_type'] == 'NOTICE' %>
+      <% @row_style = "color:#000000;background-color:#F2F2F2;" %>
     <% else %>
       <% @row_style = "background-color:#F2F2F2;color:FF6600" %>
     <% end %>
     <td style="<%= @row_style %>"><%= @config['notification_type'] %></td>
   </tr>
 
-<tr>
+  <tr>
+    <th style="background-color:#F2F2F2;">Host Name:</th>
+    <td style="background-color:#D9D9D9;"><%= @config['monitored_instance'] %></td>
+  </tr>
+
+  <tr>
+    <th style="background-color:#D9D9D9;">IP Address:</th>
+    <td style="background-color:#F2F2F2;"><%= @config['instance_address'] %></td>
+  </tr>
+
+  <tr>
     <th style="background-color:#F2F2F2;">Service Name:</th>
     <td style="background-color:#D9D9D9;"><%= @config['check_name'] %></td>
   </tr>
 
-<tr>
-  <th style="background-color:#D9D9D9;">Service State:</th>
-  <% if @config['check_state'] == 'OK' %>
-    <% @row_style = 'color:#33CC33;background-color:#F2F2F2;' %>
-  <% elsif @config['check_state'] == 'UNKNOWN' %>
-    <% @row_style = 'color:#FF6600;background-color:#F2F2F2;' %>
-  <% elsif @config['check_state'] == 'CRITICAL' %>
-    <% @row_style = 'color:#FF0000;background-color:#F2F2F2;' %>
-  <% elsif @config['check_state'] == 'WARNING' %>
-    <% @row_style = 'color:#B2B200;background-color:#F2F2F2;' %>
-  <% else %>
-    <% @row_style = 'background-color:#F2F2F2;color:FF6600;' %>
-  <% end %>
-  <td style="<%= @row_style %>"><%= @config['check_state'] %></td>
-</tr>
+  <tr>
+    <th style="background-color:#D9D9D9;">Service State:</th>
+    <% if @config['check_state'] == 'OK' %>
+      <% @row_style = 'color:#33CC33;background-color:#F2F2F2;' %>
+    <% elsif @config['check_state'] == 'UNKNOWN' %>
+      <% @row_style = 'color:#FF6600;background-color:#F2F2F2;' %>
+    <% elsif @config['check_state'] == 'CRITICAL' %>
+      <% @row_style = 'color:#FF0000;background-color:#F2F2F2;' %>
+    <% elsif @config['check_state'] == 'WARNING' %>
+      <% @row_style = 'color:#B2B200;background-color:#F2F2F2;' %>
+    <% else %>
+      <% @row_style = 'background-color:#F2F2F2;color:FF6600;' %>
+    <% end %>
+    <td style="<%= @row_style %>"><%= @config['check_state'] %></td>
+  </tr>
 
+  <tr>
+    <th style="background-color:#F2F2F2;">Service State Duration:</th>
+    <td style="background-color:#D9D9D9;"></td>
+  </tr>
 
-<tr>
-  <th style="background-color:#F2F2F2;">Service Duration:</th>
-  <td style="background-color:#D9D9D9;"><%= @config['condition_duration'] %></td>
-</tr>
+  <tr>
+    <th style="background-color:#D9D9D9;">Service Output:</th>
+    <td style="background-color:#F2F2F2;"><%= @config['check_output'] %></td>
+  </tr>
 
-<tr>
-  <th style="background-color:#D9D9D9;">Service Output:</th>
-  <td style="background-color:#F2F2F2;"><%= @config['check_output'] %></td>
-</tr>
+  <tr>
+    <th style="background-color:#F2F2F2;">Event Time:</th>
+    <td style="background-color:#D9D9D9;"><%= @config['incident_timestamp'] %></td>
+  </tr>
 
-<tr>
-  <th style="background-color:#F2F2F2;">Host Name:</th>
-  <td style="background-color:#D9D9D9;"><%= @config['monitored_instance'] %></td>
-</tr>
+  <tr>
+    <th style="background-color:#D9D9D9;">Business Hours Instructions:</th>
+    <td style="background-color:#F2F2F2;"></td>
+  </tr>
 
-<tr>
-  <th style="background-color:#D9D9D9;">IP Address:</th>
-  <td style="background-color:#F2F2F2;"><%= @config['instance_address'] %></td>
-</tr>
+  <tr>
+    <th style="background-color:#F2F2F2;">After Hours Instructions:</th>
+    <td style="background-color:#D9D9D9;"></td>
+  </tr>
 
-<tr>
-  <th style="background-color:#F2F2F2;">Event Time:</th>
-  <td style="background-color:#D9D9D9;"><%= @config['incident_timestamp'] %></td>
-</tr>
+  <tr>
+    <th style="background-color:#D9D9D9;">Contact List:</th>
+    <td style="background-color:#F2F2F2;"><%= @config['contact_list'] %></td>
+  </tr>
 
-<tr>
-  <th style="background-color:#D9D9D9;">Business Hours Instructions:</th>
-  <td style="background-color:#F2F2F2;"></td>
-</tr>
+  <tr>
+    <th style="background-color:#F2F2F2;">Comment:</th>
+    <td style="background-color:#D9D9D9;"><%= @config['notification_comment'] %></td>
+  </tr>
 
-<tr>
-  <th style="background-color:#F2F2F2;">After Hours Instructions:</th>
-  <td style="background-color:#D9D9D9;"></td>
-</tr>
-
-<tr>
-  <th style="background-color:#D9D9D9;">Contact List:</th>
-  <td style="background-color:#F2F2F2;"><a href=""></a></td>
-</tr>
-
-<tr>
-  <th style="background-color:#F2F2F2;">Comment:</th>
-  <td style="background-color:#D9D9D9;"><%= @config['notification_comment'] %></td>
-</tr>
-
-<tr>
-  <th style="background-color:#D9D9D9;">Author:</th>
-  <td style="background-color:#F2F2F2;"><%= @config['notification_author'] %></td>
-</tr>
+  <tr>
+    <th style="background-color:#D9D9D9;">Author:</th>
+    <td style="background-color:#F2F2F2;"><%= @config['notification_author'] %></td>
+  </tr>
 
 </table>
 </body>
