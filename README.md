@@ -2,7 +2,7 @@
 
 Templates, scrips, and handlers for all emails sent out via Yieldbot monitoring applications.
 
-### Color Scheme
+## Color Scheme
 
 | Text | Color | Hex Code |
 |---|---|---|
@@ -13,21 +13,60 @@ Templates, scrips, and handlers for all emails sent out via Yieldbot monitoring 
 | FLAPPING | Blue | `#0000FF`|
 | NOTICE, std text | Black | `#000000`|
 
-### Notification Types
-- CLEAR
-- ALERT
-- FLAPPING
-- NOTICE
+## Notification Types
 
-### Check States
-- OK
-- WARNING
-- CRITICAL
-- UNKNOWN
-- CONFIG ERROR
-- ERROR
+These can be thought of as the high-level category an email fits into.
 
-### Sensu Env
+### CLEAR
+The signifies that an alert condition is no longer present on the affected device
+
+### ALERT
+Any non-ok condition that a device is presenting. The Warning or Critical status is not important at this point.
+This could be one of several conditions:
+- http status != 200
+- a metric is over a given threshold
+- a service is not running
+
+### FLAPPING
+This refers to a condition that is alerting and clearing rapidly.  It is most often seen when thresholds
+are too tight.  If a threshold for a given metric is set to 90% and the baseline metric is 89%, the chances are high that the metric will enter a flapping state due to no fault of its own.  If this is the case you can either adjust the thresholds accordingly or discuss with monitoring how we can work to possibly redefine the check so that it presents more revalvent data.
+
+### NOTICE
+This is any informational messages that may not necessaryly warrant an alert but should still be logged and sent to the responsible group. Most often these will be one of the following:
+- an alert has been silenced
+- an alert is misconfigured
+- there will be a scheduled downtime for the monitored condition(service, metric endpoint, device)
+
+## Check States
+
+### OK
+No alert conditions are present
+
+### WARNING
+One of more warning conditions are present with the affected check or metric
+
+### CRITICAL
+One or more critical conditions are present with the affected check or metric
+
+### UNKNOWN
+One or more unknown conditions are present with he affected check or metric.  Generally these are caused by
+misconfigured checks or thresholds. You can also retrieve the specific error code several ways, either by executing the command from the commandline and using `echo $?` to get the exist status of the last command or by looking in `/var/log/sensu/sensu-client` device listed in the *sensu-client* field in the email.
+
+**NOTE**: Elevated permissions may be necessary to view any of the Sensu logs.  Please see monitoring if you need access.
+
+### CONFIG ERROR
+This is caused by several different error codes and generally refers to a misconfigured check command.
+- the command is not found
+- the check script is not executable
+
+**NOTE**: This is usually an OS level error not a Sensu or Ruby error
+
+### ERROR
+This is a catch all state. If you find yourself hitting a specific exit status a lot then feel free to see monitoring and we can looking at adding documentation for it.
+
+## Sensu Env
+This is the environment that the **Sensu-client** is running in, not the server.  We reserve the need if load conditions present themselves to point a client at any given Sensu server in the monitoring infrastructure.
+
 - Production
 - Staging
 - Development
@@ -35,13 +74,21 @@ Templates, scrips, and handlers for all emails sent out via Yieldbot monitoring 
 - Vagrant
 - Test
 
-### Source
+## Source
+The application originating the application.
+
 - Sensu
 
-### Misc Variables
-- monitored_instance == the device being checked
-- sensu-client == the device executing the check
+## Misc Variables
+
+### monitored_instance
+The device that the check is running against, this may not be the same device as the sensu-client.  Many checks are run from the Sensu server but against external machines.  A device with the Sensu client installed may be collecting metrics from an endpoint residing on another machine or SNMP traps from a router, PDU, or other hardware applicance. In the preceeding case the router or PDU would be considered the monitored instance.
+
+### sensu-client
+The device executing the check or metric script.  This will be the device that hits the internal or external api, accepts an SNMP trap, or executes a *cpu-load* check and hands the collected output to rabbitMQ.
 
 ## Environment Configuration
 
-`/etc/sensu/conf.d/client_info`
+ `/etc/sensu/conf.d/client_info`
+
+This file holds various environmental values, provided by Chef, that relate to the client machine.
