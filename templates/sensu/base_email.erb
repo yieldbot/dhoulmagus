@@ -3,15 +3,15 @@
 <head>
 <body style="font-family:Verdana, sans-serif;font-size:8pt;width:600px;">
 
-<% if @config['sensu_env'] == 'Prod: ' %>
+<% if @sensu_config['sensu_env'] == 'Prod: ' %>
   <p> Sensu - <a href="">Production</a></p>
-<% elsif @config['sensu_env'] == 'Dev:: ' %>
+<% elsif @sensu_config['sensu_env'] == 'Dev:: ' %>
   <p> Sensu - <a href="">Development</a></p>
-<% elsif @config['sensu_env'] == 'KitchenCI:: ' %>
+<% elsif @sensu_config['sensu_env'] == 'KitchenCI:: ' %>
   <p> Sensu - <a href="">KitchenCI</a></p>
-<% elsif @config['sensu_env'] == 'Stg: ' %>
+<% elsif @sensu_config['sensu_env'] == 'Stg: ' %>
   <p> Sensu - <a href="">Staging</a></p>
-<% elsif @config['sensu_env'] == 'Vagrant: ' %>
+<% elsif @sensu_config['sensu_env'] == 'Vagrant: ' %>
   <p> Sensu - <a href="">Vagrant</a></p>
 <% else %>
   <p> Sensu - Testing</a></p>
@@ -24,74 +24,76 @@
 
   <tr>
     <th style="background-color:#D9D9D9;">Notification Type:</th>
-    <% if @config['notification_type'] == 'ALERT' %>
+    <% if @sensu_config['notification_type'] == 'ALERT' %>
       <% @row_style = "color:#FF0000;background-color:#F2F2F2;" %>
-    <% elsif @config['notification_type'] == 'CLEAR' %>
+    <% elsif @sensu_config['notification_type'] == 'CLEAR' %>
       <% @row_style = "color:#33CC33;background-color:#F2F2F2;" %>
-    <% elsif @config['notification_type'] == 'FLAPPING' %>
+    <% elsif @sensu_config['notification_type'] == 'FLAPPING' %>
       <% @row_style = "color:#0000FF;background-color:#F2F2F2;" %>
-    <% elsif @config['notification_type'] == 'NOTICE' %>
+    <% elsif @sensu_config['notification_type'] == 'NOTICE' %>
       <% @row_style = "color:#000000;background-color:#F2F2F2;" %>
     <% else %>
       <% @row_style = "background-color:#F2F2F2;color:FF6600" %>
     <% end %>
-    <td style="<%= @row_style %>"><%= @config['notification_type'] %></td>
+    <td style="<%= @row_style %>"><%= @sensu_config['notification_type'] %></td>
   </tr>
 
   <tr>
     <th style="background-color:#F2F2F2;">Monitored Instance:</th>
-    <td style="background-color:#D9D9D9;"><%= @config['monitored_instance'] %></td>
+    <td style="background-color:#D9D9D9;"><%= @sensu_config['monitored_instance'] %></td>
   </tr>
 
   <tr>
     <th style="background-color:#D9D9D9;">Sensu Client:</th>
-    <td style="background-color:#F2F2F2;"><%= @config['sensu_client'] %></td>
+    <td style="background-color:#F2F2F2;"><%= @sensu_config['sensu_client'] %></td>
   </tr>
 
   <tr>
     <th style="background-color:#F2F2F2;">Monitored Instance IP:</th>
-    <td style="background-color:#D9D9D9;"><%= @config['instance_address'] %></td>
+    <td style="background-color:#D9D9D9;"><%= @sensu_config['instance_address'] %></td>
   </tr>
 
   <tr>
     <th style="background-color:#D9D9D9;">Check Name:</th>
-    <td style="background-color:#F2F2F2;"><%= @config['check_name'] %></td>
+    <td style="background-color:#F2F2F2;"><%= @sensu_config['check_name'] %></td>
   </tr>
 
   <tr>
     <th style="background-color:#F2F2F2;">Check State:</th>
-    <% if @config['check_state'] == 'OK' %>
+    <% if @sensu_config['check_state'] == 'OK' %>
       <% @row_style = 'color:#33CC33;background-color:#D9D9D9;' %>
-    <% elsif @config['check_state'] == 'UNKNOWN' %>
+    <% elsif @sensu_config['check_state'] == 'UNKNOWN' %>
       <% @row_style = 'color:#FF6600;background-color:#D9D9D9;' %>
-    <% elsif @config['check_state'] == 'CRITICAL' %>
+    <% elsif @sensu_config['check_state'] == 'CRITICAL' %>
       <% @row_style = 'color:#FF0000;background-color:#D9D9D9;' %>
-    <% elsif @config['check_state'] == 'WARNING' %>
+      <% elsif @sensu_config['check_state'] == 'CONFIG ERROR' %>
+        <% @row_style = 'color:#FF0000;background-color:#D9D9D9;' %>
+    <% elsif @sensu_config['check_state'] == 'WARNING' %>
       <% @row_style = 'color:#B2B200;background-color:#D9D9D9;' %>
     <% else %>
       <% @row_style = 'color:FF6600;background-color:#D9D9D9;' %>
     <% end %>
-    <td style="<%= @row_style %>"><%= @config['check_state'] %></td>
+    <td style="<%= @row_style %>"><%= @sensu_config['check_state'] %></td>
   </tr>
 
   <tr>
     <th style="background-color:#D9D9D9;">Check State Duration:</th>
-    <td style="background-color:#F2F2F2;"><%= @config['check_state_duration'] %></td>
+    <td style="background-color:#F2F2F2;"><%= @sensu_config['check_state_duration'] %></td>
   </tr>
 
   <tr>
     <th style="background-color:#F2F2F2;">Check Output:</th>
-    <td style="background-color:#D9D9D9;"><%= @config['check_output'] %></td>
+    <td style="background-color:#D9D9D9;"><%= @sensu_config['check_output'] %></td>
   </tr>
 
   <tr>
     <th style="background-color:#D9D9D9;">Check Data:</th>
-    <td style="background-color:#F2F2F2;"><%= @config['check_data'] %></td>
+    <td style="background-color:#F2F2F2;"><%= @sensu_config['check_data'] %></td>
   </tr>
 
   <tr>
     <th style="background-color:#F2F2F2;">Event Time:</th>
-    <td style="background-color:#D9D9D9;"><%= @config['incident_timestamp'] %></td>
+    <td style="background-color:#D9D9D9;"><%= @sensu_config['incident_timestamp'] %></td>
   </tr>
 
   <tr>
@@ -106,12 +108,12 @@
 
   <tr>
     <th style="background-color:#D9D9D9;">Notification Comment:</th>
-    <td style="background-color:#F2F2F2;"><%= @config['notification_comment'] %></td>
+    <td style="background-color:#F2F2F2;"><%= @sensu_config['notification_comment'] %></td>
   </tr>
 
   <tr>
     <th style="background-color:#F2F2F2;">Notification Author:</th>
-    <td style="background-color:#D9D9D9;"><%= @config['notification_author'] %></td>
+    <td style="background-color:#D9D9D9;"><%= @sensu_config['notification_author'] %></td>
   </tr>
 
 </table>
