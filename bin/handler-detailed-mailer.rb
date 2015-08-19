@@ -184,6 +184,8 @@ class DetailedMailer < Sensu::Handler
     template_vars(source)
     renderer = ERB.new(File.read(@sensu_config['mail_template']))
     msg = renderer.result(binding)
+    mail_subject = "#{define_sensu_env} #{define_notification_type}  #{@sensu_config['check_name']} on #{@sensu_config['monitored_instance']} is #{@sensu_config['check_state']}"
+
 
     #####################################
     #                                   #
@@ -217,7 +219,7 @@ class DetailedMailer < Sensu::Handler
         Mail.deliver do
           to mail_to
           from mail_from
-          subject @mail_subject
+          subject mail_subject
           content_type 'text/html; charset=UTF-8'
           body msg
         end
