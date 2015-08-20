@@ -82,10 +82,21 @@ The application originating the application.
 ## Other fields
 
 ### monitored_instance
-The device that the check is running against, this may not be the same device as the sensu-client.  Many checks are run from the Sensu server but against external machines.  A device with the Sensu client installed may be collecting metrics from an endpoint residing on another machine or SNMP traps from a router, PDU, or other hardware applicance. In the preceeding case the router or PDU would be considered the monitored instance.
+The device that the check is running against, this may not be the same device as the sensu-client.  Many checks are run from the Sensu server but against external machines.  A device with the Sensu client installed may be collecting metrics from an endpoint residing on another machine or SNMP traps from a router, PDU, or other hardware appliance. In the preceding case the router or PDU would be considered the monitored instance.
 
 ### sensu-client
 The device executing the check or metric script.  This will be the device that hits the internal or external api, accepts an SNMP trap, or executes a *cpu-load* check and hands the collected output to rabbitMQ.
+
+### notification_comment
+When an alert is silenced in Sensu the user is given the ability to enter a message.  The message should be a brief explanation of why the alert is being silenced inside of the condition being corrected and should include your name for tracking purposes. When the condition is worked a more complete picture will be able to be given concerning previously taken steps or hypothesis concerning the alert triggers.
+
+- production not affected by condition - mjones
+- non-crucial alarm will look at it in the morning - mjones
+- known issue related to FOO - mjones
+
+### notification_author
+The person who silenced the alert.  If the above format if follow then the characters after the dash will be trasmited
+into this field.
 
 ## Environment Configuration
 
