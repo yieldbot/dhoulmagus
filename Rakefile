@@ -7,7 +7,7 @@ require_relative 'lib/dhoulmagus'
 require 'yard'
 require 'yard/rake/yardoc_task'
 
-args = [:spec, :make_bin_executable, :yard, :rubocop]
+args = [:spec, :make_bin_executable, :yard]
 
 YARD::Rake::YardocTask.new do |t|
   OTHER_PATHS = %w()
