@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'><h1>Dhoulmagus</h1>
+
+<p>Templates, scrips, and handlers for all emails sent out via Yieldbot monitoring applications.</p>
+
+<h2>Color Scheme</h2>
+
+<table><thead>
+<tr>
+<th>Text</th>
+<th>Color</th>
+<th>Hex Code</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ALERT, CRITICAL, CONFIG ERROR</td>
+<td>Red</td>
+<td><code>#FF0000</code></td>
+</tr>
+<tr>
+<td>OK, CLEAR</td>
+<td>Green</td>
+<td><code>#33CC33</code></td>
+</tr>
+<tr>
+<td>WARNING</td>
+<td>Yellow</td>
+<td><code>#B2B200</code></td>
+</tr>
+<tr>
+<td>UNKNOWN, Catch-all</td>
+<td>Orange</td>
+<td><code>#FF6600</code></td>
+</tr>
+<tr>
+<td>FLAPPING</td>
+<td>Blue</td>
+<td><code>#0000FF</code></td>
+</tr>
+<tr>
+<td>NOTICE, std text</td>
+<td>Black</td>
+<td><code>#000000</code></td>
+</tr>
+</tbody></table>
+
+<h2>Notification Types</h2>
+
+<p>These can be thought of as the high-level category an email fits into.</p>
+
+<h3>CLEAR</h3>
+
+<p>The signifies that an alert condition is no longer present on the affected device</p>
+
+<h3>ALERT</h3>
+
+<p>Any non-ok condition that a device is presenting. The Warning or Critical status is not important at this point.
+This could be one of several conditions:</p>
+
+<ul>
+<li>http status != 200</li>
+<li>a metric is over a given threshold</li>
+<li>a service is not running</li>
+</ul>
+
+<h3>FLAPPING</h3>
+
+<p>This refers to a condition that is alerting and clearing rapidly.  It is most often seen when thresholds
+are too tight.  If a threshold for a given metric is set to 90% and the baseline metric is 89%, the chances are high that the metric will enter a flapping state due to no fault of its own.  If this is the case you can either adjust the thresholds accordingly or discuss with monitoring how we can work to possibly redefine the check so that it presents more revalvent data.</p>
+
+<h3>NOTICE</h3>
+
+<p>This is any informational messages that may not necessaryly warrant an alert but should still be logged and sent to the responsible group. Most often these will be one of the following:</p>
+
+<ul>
+<li>an alert has been silenced</li>
+<li>an alert is misconfigured</li>
+<li>there will be a scheduled downtime for the monitored condition(service, metric endpoint, device)</li>
+</ul>
+
+<h2>Check States</h2>
+
+<h3>OK</h3>
+
+<p>No alert conditions are present</p>
+
+<h3>WARNING</h3>
+
+<p>One of more warning conditions are present with the affected check or metric</p>
+
+<h3>CRITICAL</h3>
+
+<p>One or more critical conditions are present with the affected check or metric</p>
+
+<h3>UNKNOWN</h3>
+
+<p>One or more unknown conditions are present with he affected check or metric.  Generally these are caused by
+misconfigured checks or thresholds. You can also retrieve the specific error code several ways, either by executing the command from the commandline and using <code>echo $?</code> to get the exist status of the last command or by looking in <code>/var/log/sensu/sensu-client</code> device listed in the <em>sensu-client</em> field in the email.</p>
+
+<p><strong>NOTE</strong>: Elevated permissions may be necessary to view any of the Sensu logs.  Please see monitoring if you need access.</p>
+
+<h3>CONFIG ERROR</h3>
+
+<p>This is caused by several different error codes and generally refers to a misconfigured check command.</p>
+
+<ul>
+<li>the command is not found</li>
+<li>the check script is not executable</li>
+</ul>
+
+<p><strong>NOTE</strong>: This is usually an OS level error not a Sensu or Ruby error</p>
+
+<h3>ERROR</h3>
+
+<p>This is a catch all state. If you find yourself hitting a specific exit status a lot then feel free to see monitoring and we can looking at adding documentation for it.</p>
+
+<h2>Sensu Env</h2>
+
+<p>This is the environment that the <strong>Sensu-client</strong> is running in, not the server.  We reserve the need if load conditions present themselves to point a client, via RabbitMQ, at any given Sensu server in the monitoring infrastructure.</p>
+
+<ul>
+<li>Production</li>
+<li>Staging</li>
+<li>Development</li>
+<li>KitchenCI</li>
+<li>Vagrant</li>
+<li>Test</li>
+</ul>
+
+<h2>Source</h2>
+
+<p>The application originating the application.</p>
+
+<ul>
+<li>Sensu</li>
+</ul>
+
+<h2>Other fields</h2>
+
+<h3>monitored_instance</h3>
+
+<p>The device that the check is running against, this may not be the same device as the sensu-client.  Many checks are run from the Sensu server but against external machines.  A device with the Sensu client installed may be collecting metrics from an endpoint residing on another machine or SNMP traps from a router, PDU, or other hardware appliance. In the preceding case the router or PDU would be considered the monitored instance.</p>
+
+<h3>sensu-client</h3>
+
+<p>The device executing the check or metric script.  This will be the device that hits the internal or external api, accepts an SNMP trap, or executes a <em>cpu-load</em> check and hands the collected output to rabbitMQ.</p>
+
+<h3>notification_comment</h3>
+
+<p>When an alert is silenced in Sensu the user is given the ability to enter a message.  The message should be a brief explanation of why the alert is being silenced inside of the condition being corrected and should include your name for tracking purposes. When the condition is worked a more complete picture will be able to be given concerning previously taken steps or hypothesis concerning the alert triggers.</p>
+
+<ul>
+<li>production not affected by condition - mjones</li>
+<li>non-crucial alarm will look at it in the morning - mjones</li>
+<li>known issue related to FOO - mjones</li>
+</ul>
+
+<h3>notification_author</h3>
+
+<p>The person who silenced the alert.  If the above format if follow then the characters after the dash will be trasmited
+into this field.</p>
+
+<h2>Environment Configuration</h2>
+
+<p><code>/etc/sensu/conf.d/client_info</code></p>
+
+<p>This file holds various environmental values, provided by Chef, that relate to the client machine.</p>
+</div></div>
+
+    <div id="footer">
+  Generated on Thu Aug 20 12:07:59 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.1.3).
+</div>
+
+  </body>
+</html>
