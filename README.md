@@ -65,7 +65,7 @@ This is caused by several different error codes and generally refers to a miscon
 This is a catch all state. If you find yourself hitting a specific exit status a lot then feel free to see monitoring and we can looking at adding documentation for it.
 
 ## Sensu Env
-This is the environment that the **Sensu-client** is running in, not the server.  We reserve the need if load conditions present themselves to point a client at any given Sensu server in the monitoring infrastructure.
+This is the environment that the **Sensu-client** is running in, not the server.  We reserve the need if load conditions present themselves to point a client, via RabbitMQ, at any given Sensu server in the monitoring infrastructure.
 
 - Production
 - Staging
@@ -79,7 +79,7 @@ The application originating the application.
 
 - Sensu
 
-## Misc Variables
+## Other fields
 
 ### monitored_instance
 The device that the check is running against, this may not be the same device as the sensu-client.  Many checks are run from the Sensu server but against external machines.  A device with the Sensu client installed may be collecting metrics from an endpoint residing on another machine or SNMP traps from a router, PDU, or other hardware applicance. In the preceeding case the router or PDU would be considered the monitored instance.
