@@ -51,7 +51,7 @@ class DetailedMailer < Sensu::Handler
   #   "acquire_infra_details" #=> Hash
   # @return [hash] any provided infra details for the device
   def acquire_infra_details
-    JSON.parse('/etc/sensu/conf.d/monitoring_infra.json')
+    JSON.parse(File.read('/etc/sensu/conf.d/monitoring_infra.json'))
   end
 
   # Acquires product name
@@ -90,7 +90,7 @@ class DetailedMailer < Sensu::Handler
   #
   # This will be used in both the email subject and in the `Notification Type:` field
   #
-  # @example Set the notification type to FLAPPINF
+  # @example Set the notification type to FLAPPING
   #   "define_notification_type" #=> "FLAPPING
   # @return [string] the notification type
   def define_notification_type
@@ -138,19 +138,16 @@ class DetailedMailer < Sensu::Handler
   #
   # @example Set the sensu environment to Dev:
   #   "define_sensu_env" #=> "Dev: '"
-  # @param [hash] client specific information derived from external tools
   # @return [string] The environemnt the client is associated with
-  def define_sensu_env(infra_details)
-    sensu_server = Socket.gethostname
-    if sensu_server.match(/^prd/)
+  def define_sensu_env
+    case acquire_infra_details['sensu']['environment']
+    when 'prd'
       return 'Prod: '
-    elsif sensu_server.match(/^dev/)
+    when 'dev'
       return 'Dev: '
-    elsif sensu_server.match(/^FOO/)
+    when 'stg'
       return 'Stg: '
-    elsif sensu_server.match(/^BAR/)
-      return 'KitchenCI: '
-    elsif sensu_server.match(/^vagrant/)
+    when 'vagrant'
       return 'Vagrant: '
     else
       return 'Test: '
@@ -191,7 +188,7 @@ class DetailedMailer < Sensu::Handler
         'notification_comment'  => '', # the comment added to a check to silence it
         'notification_author'   => '', # the user that silenced the check
         'check_output'          => @event['check']['output'],
-        'sensu_env'             => define_sensu_env(acquire_infra_details),
+        'sensu_env'             => define_sensu_env,
         'notification_type'     => define_notification_type,
         'check_state_duration'  => define_check_state_duration,
         'mail_template'         => "#{@template_path}/sensu/sensu_alert_email.erb"
