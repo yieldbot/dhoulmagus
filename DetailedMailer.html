@@ -147,6 +147,79 @@ templates</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#acquire_infra_details-instance_method" title="#acquire_infra_details (instance method)">- (hash) <strong>acquire_infra_details</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Acquire any client or device specific information about the monitoring
+infrastructure.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#acquire_product-instance_method" title="#acquire_product (instance method)">- (string) <strong>acquire_product</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Acquires product name.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#acquire_setting-instance_method" title="#acquire_setting (instance method)">- (string) <strong>acquire_setting</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Acquires the mail settings from a json file dropped via Chef.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#define_check_state_duration-instance_method" title="#define_check_state_duration (instance method)">- (string) <strong>define_check_state_duration</strong> </a>
     
 
@@ -267,30 +340,6 @@ templates</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_setting-instance_method" title="#get_setting (instance method)">- (string) <strong>get_setting</strong>(name) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Acquires the mail settings from a json file dropped via Chef.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#handle-instance_method" title="#handle (instance method)">- (integer) <strong>handle</strong> </a>
     
 
@@ -371,7 +420,309 @@ templates</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="define_check_state_duration-instance_method">
+  <h3 class="signature first" id="acquire_infra_details-instance_method">
+  
+    - (<tt>hash</tt>) <strong>acquire_infra_details</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Acquire any client or device specific information about the monitoring
+infrastructure</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Get the information</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>acquire_infra_details</span><span class='tstring_end'>&quot;</span></span> <span class='comment'>#=&gt; Hash</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>any provided infra details for the device</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'>
+<p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 53</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_acquire_infra_details'>acquire_infra_details</span>
+  <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/etc/sensu/conf.d/monitoring_infra.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="acquire_product-instance_method">
+  
+    - (<tt>string</tt>) <strong>acquire_product</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Acquires product name</p>
+
+<p>The product name will be used for contact routing purposes. The product
+will define which configuration snippet to use</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Get a product</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>acquire_product</span><span class='tstring_end'>&quot;</span></span> <span class='comment'>#=&gt; &quot;luts&quot;</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>string</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the product</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'>
+<p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 65</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_acquire_product'>acquire_product</span>
+  <span class='ivar'>@event</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>check</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>product</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="acquire_setting-instance_method">
+  
+    - (<tt>string</tt>) <strong>acquire_setting</strong>(name) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Acquires the mail settings from a json file dropped via Chef</p>
+
+<p>These settings will set who the mail should be set to along with any
+necessary snmtp settings.  All can be overridden in the local Vagrantfile</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Get a setting</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>acquire_setting(&#39;mail_to&#39;)</span><span class='tstring_end'>&quot;</span></span> <span class='comment'>#=&gt; &quot;user@purple.com&quot;</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>string</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the mail settings to use</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>string</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the configuration string</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Since:</p>
+<ul class="since">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'>
+<p>0.0.1</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 36</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_acquire_product'>acquire_product</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>devops</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_settings'>settings</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>devops-mailer</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>platform</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_settings'>settings</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>platform-mailer</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='kw'>return</span> <span class='id identifier rubyid_settings'>settings</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>product-</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_acquire_product'>acquire_product</span><span class='embexpr_end'>}</span><span class='tstring_content'>-mailer</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="define_check_state_duration-instance_method">
   
     - (<tt>string</tt>) <strong>define_check_state_duration</strong> 
   
@@ -442,12 +793,12 @@ templates</p>
       <pre class="lines">
 
 
-44
-45
-46</pre>
+73
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 73</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_check_state_duration'>define_check_state_duration</span>
   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
@@ -484,7 +835,7 @@ field</p>
     
       
         <p class="example_title"><div class='inline'>
-<p>Set the notification type to FLAPPINF</p>
+<p>Set the notification type to FLAPPING</p>
 </div></p>
       
       <pre class="example code"><code><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>define_notification_type</span><span class='tstring_end'>&quot;</span></span> <span class='comment'>#=&gt; &quot;FLAPPING</span></code></pre>
@@ -532,21 +883,21 @@ field</p>
       <pre class="lines">
 
 
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78</pre>
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_notification_type'>define_notification_type</span>
   <span class='kw'>case</span> <span class='ivar'>@event</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>action</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -641,37 +992,33 @@ to know where the actual device is located</p>
       <pre class="lines">
 
 
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128</pre>
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 142</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_sensu_env'>define_sensu_env</span>
-  <span class='id identifier rubyid_sensu_server'>sensu_server</span> <span class='op'>=</span> <span class='const'>Socket</span><span class='period'>.</span><span class='id identifier rubyid_gethostname'>gethostname</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_sensu_server'>sensu_server</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^prd</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+  <span class='kw'>case</span> <span class='id identifier rubyid_acquire_infra_details'>acquire_infra_details</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sensu</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>environment</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>prd</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Prod: </span><span class='tstring_end'>&#39;</span></span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_sensu_server'>sensu_server</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^dev</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>dev</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Dev: </span><span class='tstring_end'>&#39;</span></span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_sensu_server'>sensu_server</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^FOO</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>stg</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Stg: </span><span class='tstring_end'>&#39;</span></span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_sensu_server'>sensu_server</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^BAR</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>KitchenCI: </span><span class='tstring_end'>&#39;</span></span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_sensu_server'>sensu_server</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^vagrant</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>vagrant</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Vagrant: </span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>else</span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Test: </span><span class='tstring_end'>&#39;</span></span>
@@ -757,12 +1104,12 @@ each application needs to be defined here for filtering purposes</p>
       <pre class="lines">
 
 
-138
-139
-140</pre>
+165
+166
+167</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_source'>define_source</span>
   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sensu</span><span class='tstring_end'>&#39;</span></span>
@@ -846,25 +1193,25 @@ each application needs to be defined here for filtering purposes</p>
       <pre class="lines">
 
 
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102</pre>
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_status'>define_status</span>
   <span class='kw'>case</span> <span class='ivar'>@event</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>check</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -881,116 +1228,6 @@ each application needs to be defined here for filtering purposes</p>
   <span class='kw'>else</span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ERROR</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="get_setting-instance_method">
-  
-    - (<tt>string</tt>) <strong>get_setting</strong>(name) 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Acquires the mail settings from a json file dropped via Chef</p>
-
-<p>These settings will set who the mail should be set to along with any
-necessary snmtp settings.  All can be overridden in the local Vagrantfile</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-        <p class="example_title"><div class='inline'>
-<p>Get a setting</p>
-</div></p>
-      
-      <pre class="example code"><code><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>get_setting(&#39;mail_to&#39;)</span><span class='tstring_end'>&quot;</span></span> <span class='comment'>#=&gt; &quot;user@purple.com&quot;</span></code></pre>
-    
-  </div>
-<p class="tag_title">Parameters:</p>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>name</span>
-      
-      
-        <span class='type'>(<tt>string</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>the mail settings to use</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>string</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>the configuration string</p>
-</div>
-      
-    </li>
-  
-</ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'>
-<p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-36
-37
-38</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 36</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_settings'>settings</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>devops-mailer</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1069,33 +1306,6 @@ necessary snmtp settings.  All can be overridden in the local Vagrantfile</p>
       <pre class="lines">
 
 
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
 204
 205
 206
@@ -1145,10 +1355,37 @@ necessary snmtp settings.  All can be overridden in the local Vagrantfile</p>
 250
 251
 252
-253</pre>
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 204</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_handle'>handle</span>
   <span class='comment'>######################
@@ -1156,18 +1393,18 @@ necessary snmtp settings.  All can be overridden in the local Vagrantfile</p>
 </span>  <span class='comment'># smtp mail settings #
 </span>  <span class='comment'>#                    #
 </span>  <span class='comment'>######################
-</span>  <span class='id identifier rubyid_mail_to'>mail_to</span>                   <span class='op'>=</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mail_to</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_mail_from'>mail_from</span>                 <span class='op'>=</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mail_from</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</span>  <span class='id identifier rubyid_mail_to'>mail_to</span>                   <span class='op'>=</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mail_to</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mail_from'>mail_from</span>                 <span class='op'>=</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mail_from</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
 
-  <span class='id identifier rubyid_delivery_method'>delivery_method</span>           <span class='op'>=</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>delivery_method</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp</span><span class='tstring_end'>&#39;</span></span>
-  <span class='id identifier rubyid_smtp_address'>smtp_address</span>              <span class='op'>=</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_address</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>localhost</span><span class='tstring_end'>&#39;</span></span>
-  <span class='id identifier rubyid_smtp_port'>smtp_port</span>                 <span class='op'>=</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_port</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>25</span><span class='tstring_end'>&#39;</span></span>
-  <span class='id identifier rubyid_smtp_domain'>smtp_domain</span>               <span class='op'>=</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_domain</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>localhost.localdomain</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_delivery_method'>delivery_method</span>           <span class='op'>=</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>delivery_method</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_smtp_address'>smtp_address</span>              <span class='op'>=</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_address</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>localhost</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_smtp_port'>smtp_port</span>                 <span class='op'>=</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_port</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>25</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_smtp_domain'>smtp_domain</span>               <span class='op'>=</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_domain</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>localhost.localdomain</span><span class='tstring_end'>&#39;</span></span>
 
-  <span class='id identifier rubyid_smtp_username'>smtp_username</span>             <span class='op'>=</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_username</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>nil</span>
-  <span class='id identifier rubyid_smtp_password'>smtp_password</span>             <span class='op'>=</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_password</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>nil</span>
-  <span class='id identifier rubyid_smtp_authentication'>smtp_authentication</span>       <span class='op'>=</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_authentication</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='symbol'>:plain</span>
-  <span class='id identifier rubyid_smtp_enable_starttls_auto'>smtp_enable_starttls_auto</span> <span class='op'>=</span> <span class='id identifier rubyid_get_setting'>get_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_enable_starttls_auto</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>false</span><span class='tstring_end'>&#39;</span></span> <span class='op'>?</span> <span class='kw'>false</span> <span class='op'>:</span> <span class='kw'>true</span>
+  <span class='id identifier rubyid_smtp_username'>smtp_username</span>             <span class='op'>=</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_username</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_smtp_password'>smtp_password</span>             <span class='op'>=</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_password</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='kw'>nil</span>
+  <span class='id identifier rubyid_smtp_authentication'>smtp_authentication</span>       <span class='op'>=</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_authentication</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='symbol'>:plain</span>
+  <span class='id identifier rubyid_smtp_enable_starttls_auto'>smtp_enable_starttls_auto</span> <span class='op'>=</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>smtp_enable_starttls_auto</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>false</span><span class='tstring_end'>&#39;</span></span> <span class='op'>?</span> <span class='kw'>false</span> <span class='op'>:</span> <span class='kw'>true</span>
 
   <span class='comment'># set the source application to define the proper template variables
 </span>  <span class='id identifier rubyid_source'>source</span> <span class='op'>=</span> <span class='id identifier rubyid_define_source'>define_source</span>
@@ -1307,12 +1544,12 @@ currently be found in `/var/log/sensu/sensu-server.log`</p>
       <pre class="lines">
 
 
-56
-57
-58</pre>
+85
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 85</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_short_name'>short_name</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@sensu_config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monitored_instance</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@sensu_config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>check_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -1416,31 +1653,31 @@ currently be found in `/var/log/sensu/sensu-server.log`</p>
       <pre class="lines">
 
 
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171</pre>
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_template_vars'>template_vars</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_source'>source</span>
@@ -1459,7 +1696,7 @@ currently be found in `/var/log/sensu/sensu-server.log`</p>
       <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sensu_env</span><span class='tstring_end'>&#39;</span></span>             <span class='op'>=&gt;</span> <span class='id identifier rubyid_define_sensu_env'>define_sensu_env</span><span class='comma'>,</span>
       <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>notification_type</span><span class='tstring_end'>&#39;</span></span>     <span class='op'>=&gt;</span> <span class='id identifier rubyid_define_notification_type'>define_notification_type</span><span class='comma'>,</span>
       <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>check_state_duration</span><span class='tstring_end'>&#39;</span></span>  <span class='op'>=&gt;</span> <span class='id identifier rubyid_define_check_state_duration'>define_check_state_duration</span><span class='comma'>,</span>
-      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mail_template</span><span class='tstring_end'>&#39;</span></span>         <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@template_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/sensu/base_email.erb</span><span class='tstring_end'>&quot;</span></span>
+      <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>mail_template</span><span class='tstring_end'>&#39;</span></span>         <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@template_path</span><span class='embexpr_end'>}</span><span class='tstring_content'>/sensu/sensu_alert_email.erb</span><span class='tstring_end'>&quot;</span></span>
     <span class='rbrace'>}</span>
     <span class='ivar'>@mail_subject</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_define_sensu_env'>define_sensu_env</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_define_notification_type'>define_notification_type</span><span class='embexpr_end'>}</span><span class='tstring_content'>  </span><span class='embexpr_beg'>#{</span><span class='ivar'>@sensu_config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>check_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> on </span><span class='embexpr_beg'>#{</span><span class='ivar'>@sensu_config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monitored_instance</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'> is </span><span class='embexpr_beg'>#{</span><span class='ivar'>@sensu_config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>check_state</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
@@ -1474,7 +1711,7 @@ currently be found in `/var/log/sensu/sensu-server.log`</p>
 </div>
 
     <div id="footer">
-  Generated on Thu Aug 20 15:52:06 2015 by
+  Generated on Sun Aug 23 22:33:52 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.1.3).
 </div>
