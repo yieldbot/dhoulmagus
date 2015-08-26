@@ -30,18 +30,12 @@ class DetailedMailer < Sensu::Handler
   # necessary snmtp settings.  All can be overridden in the local Vagrantfile
   #
   # @example Get a setting
-  #   "acquire_setting('mail_to')" #=> "user@purple.com"
-  # @param name [string] the mail settings to use
+  #   "acquire_setting('alert_prefix')" #=> "go away"
+  # @param name [string] the alert heading
   # @return [string] the configuration string
   def acquire_setting(name)
-    case acquire_product
-    when 'devops'
-      return settings['devops-mailer'][name]
-    when 'platform'
-      return settings['platform-mailer'][name]
-    else
-      return settings["product-#{acquire_product}-mailer"][name]
-    end
+    product = ARGV[1]
+    settings[product][name]
   end
 
   # Acquire any client or device specific information about the
@@ -52,18 +46,6 @@ class DetailedMailer < Sensu::Handler
   # @return [hash] any provided infra details for the device
   def acquire_infra_details
     JSON.parse(File.read('/etc/sensu/conf.d/monitoring_infra.json'))
-  end
-
-  # Acquires product name
-  #
-  # The product name will be used for contact routing purposes. The product
-  # will define which configuration snippet to use
-  #
-  # @example Get a product
-  #   "acquire_product" #=> "luts"
-  # @return [string] the product
-  def acquire_product
-    @event['check']['product']
   end
 
   # Calculate the duration the check has been it its current state
@@ -125,6 +107,8 @@ class DetailedMailer < Sensu::Handler
       return 'UNKNOWN'
     when 127
       return 'CONFIG ERROR'
+    when 126
+      return 'PERMISSION DENIED'
     else
       return 'ERROR'
     end
