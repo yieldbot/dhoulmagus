@@ -9,7 +9,7 @@ module Dhoulmagus
   module Version
     MAJOR = 0
     MINOR = 0
-    PATCH = 37
+    PATCH = 38
 
     STRING = [MAJOR, MINOR, PATCH].compact.join('.')
 
