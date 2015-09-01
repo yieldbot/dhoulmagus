@@ -63,48 +63,7 @@
 
     <div id="content"><div id='filecontents'><h1>Dhoulmagus</h1>
 
-<p>Templates, scrips, and handlers for all emails sent out via Yieldbot monitoring applications.</p>
-
-<h2>Color Scheme</h2>
-
-<table><thead>
-<tr>
-<th>Text</th>
-<th>Color</th>
-<th>Hex Code</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ALERT, CRITICAL, CONFIG ERROR</td>
-<td>Red</td>
-<td><code>#FF0000</code></td>
-</tr>
-<tr>
-<td>OK, CLEAR</td>
-<td>Green</td>
-<td><code>#33CC33</code></td>
-</tr>
-<tr>
-<td>WARNING</td>
-<td>Yellow</td>
-<td><code>#B2B200</code></td>
-</tr>
-<tr>
-<td>UNKNOWN, Catch-all</td>
-<td>Orange</td>
-<td><code>#FF6600</code></td>
-</tr>
-<tr>
-<td>FLAPPING</td>
-<td>Blue</td>
-<td><code>#0000FF</code></td>
-</tr>
-<tr>
-<td>NOTICE, std text</td>
-<td>Black</td>
-<td><code>#000000</code></td>
-</tr>
-</tbody></table>
+<p>Detailed email script with erb templates for rich messages</p>
 
 <h2>Notification Types</h2>
 
@@ -156,10 +115,7 @@ are too tight.  If a threshold for a given metric is set to 90% and the baseline
 
 <h3>UNKNOWN</h3>
 
-<p>One or more unknown conditions are present with he affected check or metric.  Generally these are caused by
-misconfigured checks or thresholds. You can also retrieve the specific error code several ways, either by executing the command from the commandline and using <code>echo $?</code> to get the exist status of the last command or by looking in <code>/var/log/sensu/sensu-client</code> device listed in the <em>sensu-client</em> field in the email.</p>
-
-<p><strong>NOTE</strong>: Elevated permissions may be necessary to view any of the Sensu logs.  Please see monitoring if you need access.</p>
+<p>One or more unknown conditions are present with he affected check or metric.  Generally these are caused by misconfigured checks or thresholds. You can also retrieve the specific error code several ways, either by executing the command from the commandline and using <code>echo $?</code> to get the exist status of the last command or by looking in the sensu-client logs device listed in the <em>sensu-client</em> field in the email.</p>
 
 <h3>CONFIG ERROR</h3>
 
@@ -174,11 +130,11 @@ misconfigured checks or thresholds. You can also retrieve the specific error cod
 
 <h3>ERROR</h3>
 
-<p>This is a catch all state. If you find yourself hitting a specific exit status a lot then feel free to see monitoring and we can looking at adding documentation for it.</p>
+<p>This is a catch all state. If you find yourself hitting a specific exit status a lot then feel free to make a pull request to add it in.</p>
 
 <h2>Sensu Env</h2>
 
-<p>This is the environment that the <strong>Sensu-client</strong> is running in, not the server.  We reserve the need if load conditions present themselves to point a client, via RabbitMQ, at any given Sensu server in the monitoring infrastructure.</p>
+<p>This is the environment that the <strong>Sensu-client</strong> is running in, not the device being monitored. The following environments are currently supported.</p>
 
 <ul>
 <li>Production</li>
@@ -189,13 +145,11 @@ misconfigured checks or thresholds. You can also retrieve the specific error cod
 <li>Test</li>
 </ul>
 
+<p>The detection of the environment comes from a json configuration file located in <code>/etc/sensu/</code></p>
+
 <h2>Source</h2>
 
-<p>The application originating the application.</p>
-
-<ul>
-<li>Sensu</li>
-</ul>
+<p>The application originating the application, in most cases this will be Sensu.</p>
 
 <h2>Other fields</h2>
 
@@ -212,15 +166,14 @@ misconfigured checks or thresholds. You can also retrieve the specific error cod
 <p>When an alert is silenced in Sensu the user is given the ability to enter a message.  The message should be a brief explanation of why the alert is being silenced inside of the condition being corrected and should include your name for tracking purposes. When the condition is worked a more complete picture will be able to be given concerning previously taken steps or hypothesis concerning the alert triggers.</p>
 
 <ul>
-<li>production not affected by condition - mjones</li>
-<li>non-crucial alarm will look at it in the morning - mjones</li>
-<li>known issue related to FOO - mjones</li>
+<li>production not affected by condition - matty</li>
+<li>non-crucial alarm will look at it in the morning - matty</li>
+<li>known issue related to FOO - matty</li>
 </ul>
 
 <h3>notification_author</h3>
 
-<p>The person who silenced the alert.  If the above format if follow then the characters after the dash will be trasmited
-into this field.</p>
+<p>The person who silenced the alert.  If the above format if follow then the characters after the dash will be transmitted into this field.</p>
 
 <h2>Environment Configuration</h2>
 
@@ -230,7 +183,7 @@ into this field.</p>
 </div></div>
 
     <div id="footer">
-  Generated on Tue Sep  1 11:17:49 2015 by
+  Generated on Tue Sep  1 11:24:19 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.1.3).
 </div>

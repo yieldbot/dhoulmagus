@@ -1,17 +1,6 @@
 # Dhoulmagus
 
-Templates, scrips, and handlers for all emails sent out via Yieldbot monitoring applications.
-
-## Color Scheme
-
-| Text | Color | Hex Code |
-|---|---|---|
-| ALERT, CRITICAL, CONFIG ERROR | Red | `#FF0000` |
-| OK, CLEAR | Green | `#33CC33` |
-| WARNING | Yellow | `#B2B200` |
-| UNKNOWN, Catch-all | Orange | `#FF6600` |
-| FLAPPING | Blue | `#0000FF`|
-| NOTICE, std text | Black | `#000000`|
+Detailed email script with erb templates for rich messages
 
 ## Notification Types
 
@@ -49,10 +38,8 @@ One of more warning conditions are present with the affected check or metric
 One or more critical conditions are present with the affected check or metric
 
 ### UNKNOWN
-One or more unknown conditions are present with he affected check or metric.  Generally these are caused by
-misconfigured checks or thresholds. You can also retrieve the specific error code several ways, either by executing the command from the commandline and using `echo $?` to get the exist status of the last command or by looking in `/var/log/sensu/sensu-client` device listed in the *sensu-client* field in the email.
+One or more unknown conditions are present with he affected check or metric.  Generally these are caused by misconfigured checks or thresholds. You can also retrieve the specific error code several ways, either by executing the command from the commandline and using `echo $?` to get the exist status of the last command or by looking in the sensu-client logs device listed in the *sensu-client* field in the email.
 
-**NOTE**: Elevated permissions may be necessary to view any of the Sensu logs.  Please see monitoring if you need access.
 
 ### CONFIG ERROR
 This is caused by several different error codes and generally refers to a misconfigured check command.
@@ -62,10 +49,10 @@ This is caused by several different error codes and generally refers to a miscon
 **NOTE**: This is usually an OS level error not a Sensu or Ruby error
 
 ### ERROR
-This is a catch all state. If you find yourself hitting a specific exit status a lot then feel free to see monitoring and we can looking at adding documentation for it.
+This is a catch all state. If you find yourself hitting a specific exit status a lot then feel free to make a pull request to add it in.
 
 ## Sensu Env
-This is the environment that the **Sensu-client** is running in, not the server.  We reserve the need if load conditions present themselves to point a client, via RabbitMQ, at any given Sensu server in the monitoring infrastructure.
+This is the environment that the **Sensu-client** is running in, not the device being monitored. The following environments are currently supported.
 
 - Production
 - Staging
@@ -74,10 +61,10 @@ This is the environment that the **Sensu-client** is running in, not the server.
 - Vagrant
 - Test
 
-## Source
-The application originating the application.
+The detection of the environment comes from a json configuration file located in `/etc/sensu/`
 
-- Sensu
+## Source
+The application originating the application, in most cases this will be Sensu.
 
 ## Other fields
 
@@ -90,13 +77,12 @@ The device executing the check or metric script.  This will be the device that h
 ### notification_comment
 When an alert is silenced in Sensu the user is given the ability to enter a message.  The message should be a brief explanation of why the alert is being silenced inside of the condition being corrected and should include your name for tracking purposes. When the condition is worked a more complete picture will be able to be given concerning previously taken steps or hypothesis concerning the alert triggers.
 
-- production not affected by condition - mjones
-- non-crucial alarm will look at it in the morning - mjones
-- known issue related to FOO - mjones
+- production not affected by condition - matty
+- non-crucial alarm will look at it in the morning - matty
+- known issue related to FOO - matty
 
 ### notification_author
-The person who silenced the alert.  If the above format if follow then the characters after the dash will be trasmited
-into this field.
+The person who silenced the alert.  If the above format if follow then the characters after the dash will be transmitted into this field.
 
 ## Environment Configuration
 
