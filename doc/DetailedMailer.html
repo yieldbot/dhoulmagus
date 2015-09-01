@@ -172,30 +172,6 @@ infrastructure.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#acquire_product-instance_method" title="#acquire_product (instance method)">- (string) <strong>acquire_product</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Acquires product name.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#acquire_setting-instance_method" title="#acquire_setting (instance method)">- (string) <strong>acquire_setting</strong>(name) </a>
     
 
@@ -492,105 +468,15 @@ infrastructure</p>
       <pre class="lines">
 
 
-53
-54
-55</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_acquire_infra_details'>acquire_infra_details</span>
   <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/etc/sensu/conf.d/monitoring_infra.json</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="acquire_product-instance_method">
-  
-    - (<tt>string</tt>) <strong>acquire_product</strong> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Acquires product name</p>
-
-<p>The product name will be used for contact routing purposes. The product
-will define which configuration snippet to use</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-        <p class="example_title"><div class='inline'>
-<p>Get a product</p>
-</div></p>
-      
-      <pre class="example code"><code><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>acquire_product</span><span class='tstring_end'>&quot;</span></span> <span class='comment'>#=&gt; &quot;luts&quot;</span></code></pre>
-    
-  </div>
-
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>string</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>the product</p>
-</div>
-      
-    </li>
-  
-</ul>
-<p class="tag_title">Since:</p>
-<ul class="since">
-  
-    <li>
-      
-      
-      
-      
-        
-        <div class='inline'>
-<p>0.0.1</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-65
-66
-67</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 65</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_acquire_product'>acquire_product</span>
-  <span class='ivar'>@event</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>check</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>product</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -627,7 +513,7 @@ necessary snmtp settings.  All can be overridden in the local Vagrantfile</p>
 <p>Get a setting</p>
 </div></p>
       
-      <pre class="example code"><code><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>acquire_setting(&#39;mail_to&#39;)</span><span class='tstring_end'>&quot;</span></span> <span class='comment'>#=&gt; &quot;user@purple.com&quot;</span></code></pre>
+      <pre class="example code"><code><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>acquire_setting(&#39;alert_prefix&#39;)</span><span class='tstring_end'>&quot;</span></span> <span class='comment'>#=&gt; &quot;go away&quot;</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -644,7 +530,7 @@ necessary snmtp settings.  All can be overridden in the local Vagrantfile</p>
       
         &mdash;
         <div class='inline'>
-<p>the mail settings to use</p>
+<p>the alert heading</p>
 </div>
       
     </li>
@@ -695,26 +581,14 @@ necessary snmtp settings.  All can be overridden in the local Vagrantfile</p>
 36
 37
 38
-39
-40
-41
-42
-43
-44
-45</pre>
+39</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_acquire_setting'>acquire_setting</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
-  <span class='kw'>case</span> <span class='id identifier rubyid_acquire_product'>acquire_product</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>devops</span><span class='tstring_end'>&#39;</span></span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_settings'>settings</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>devops-mailer</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
-  <span class='kw'>when</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>platform</span><span class='tstring_end'>&#39;</span></span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_settings'>settings</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>platform-mailer</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
-  <span class='kw'>else</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_settings'>settings</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>product-</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_acquire_product'>acquire_product</span><span class='embexpr_end'>}</span><span class='tstring_content'>-mailer</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
+  <span class='id identifier rubyid_product'>product</span> <span class='op'>=</span> <span class='const'>ARGV</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_settings'>settings</span><span class='lbracket'>[</span><span class='id identifier rubyid_product'>product</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id identifier rubyid_name'>name</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -793,12 +667,12 @@ necessary snmtp settings.  All can be overridden in the local Vagrantfile</p>
       <pre class="lines">
 
 
-73
-74
-75</pre>
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_check_state_duration'>define_check_state_duration</span>
   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
@@ -883,21 +757,21 @@ field</p>
       <pre class="lines">
 
 
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107</pre>
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 78</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_notification_type'>define_notification_type</span>
   <span class='kw'>case</span> <span class='ivar'>@event</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>action</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -992,23 +866,23 @@ to know where the actual device is located</p>
       <pre class="lines">
 
 
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155</pre>
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_sensu_env'>define_sensu_env</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_acquire_infra_details'>acquire_infra_details</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sensu</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>environment</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -1104,12 +978,12 @@ each application needs to be defined here for filtering purposes</p>
       <pre class="lines">
 
 
-165
-166
-167</pre>
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 149</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_source'>define_source</span>
   <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sensu</span><span class='tstring_end'>&#39;</span></span>
@@ -1193,25 +1067,27 @@ each application needs to be defined here for filtering purposes</p>
       <pre class="lines">
 
 
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131</pre>
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_define_status'>define_status</span>
   <span class='kw'>case</span> <span class='ivar'>@event</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>check</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>status</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -1225,6 +1101,8 @@ each application needs to be defined here for filtering purposes</p>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>UNKNOWN</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>when</span> <span class='int'>127</span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CONFIG ERROR</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>when</span> <span class='int'>126</span>
+    <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>PERMISSION DENIED</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>else</span>
     <span class='kw'>return</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ERROR</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
@@ -1306,6 +1184,22 @@ each application needs to be defined here for filtering purposes</p>
       <pre class="lines">
 
 
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
 204
 205
 206
@@ -1366,26 +1260,10 @@ each application needs to be defined here for filtering purposes</p>
 261
 262
 263
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280</pre>
+264</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 204</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 188</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_handle'>handle</span>
   <span class='comment'>######################
@@ -1544,12 +1422,12 @@ currently be found in `/var/log/sensu/sensu-server.log`</p>
       <pre class="lines">
 
 
-85
-86
-87</pre>
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_short_name'>short_name</span>
   <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='ivar'>@sensu_config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>monitored_instance</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='ivar'>@sensu_config</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>check_name</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
@@ -1653,31 +1531,31 @@ currently be found in `/var/log/sensu/sensu-server.log`</p>
       <pre class="lines">
 
 
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
 177
 178
 179
 180
 181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198</pre>
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'bin/handler-detailed-mailer.rb', line 161</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_template_vars'>template_vars</span><span class='lparen'>(</span><span class='id identifier rubyid_source'>source</span><span class='rparen'>)</span>
   <span class='kw'>case</span> <span class='id identifier rubyid_source'>source</span>
@@ -1711,7 +1589,7 @@ currently be found in `/var/log/sensu/sensu-server.log`</p>
 </div>
 
     <div id="footer">
-  Generated on Sun Aug 23 22:33:52 2015 by
+  Generated on Tue Sep  1 11:17:49 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.6 (ruby-2.1.3).
 </div>
