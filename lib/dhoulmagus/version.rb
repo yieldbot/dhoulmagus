@@ -18,6 +18,7 @@ module Dhoulmagus
 
     # pull the version into the gemspec for use with Jenkins
     # @since 0.0.1
+
     module_function
 
     # format the version

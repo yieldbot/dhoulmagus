@@ -150,6 +150,14 @@ class DetailedMailer < Sensu::Handler
     'sensu'
   end
 
+  def check_data
+    ''
+  end
+
+  def acquire_monitored_instance
+    @event['client']['name']
+  end
+
   # Define all erb template variables
   #
   # This will determine what values to calculate for the templates
@@ -162,13 +170,13 @@ class DetailedMailer < Sensu::Handler
     case source
     when 'sensu'
       @sensu_config = {
-        'monitored_instance'    => @event['client']['name'], # this will be the snmp host if using traps
+        'monitored_instance'    => acquire_monitored_instance, # this will be the snmp host if using traps
         'sensu_client'          => @event['client']['name'],
         'incident_timestamp'    => Time.at(@event['check']['issued']),
         'instance_address'      => @event['client']['address'],
         'check_name'            => @event['check']['name'],
         'check_state'           => define_status,
-        'check_data'            => '', # any additional user supplied data
+        'check_data'            => check_data, # any additional user supplied data
         'notification_comment'  => '', # the comment added to a check to silence it
         'notification_author'   => '', # the user that silenced the check
         'check_output'          => @event['check']['output'],
