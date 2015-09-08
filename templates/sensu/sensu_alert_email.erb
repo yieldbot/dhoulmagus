@@ -18,7 +18,7 @@
 
   <table style="text-align:left;width:600px;margin-left:auto;margin-right:auto;">
     <tr>
-      <th colspan=2 style="background-color:#660099;color:#ffffff;font-family:Verdana, sans-serif;font-size:8pt;text-align:left;width:200px></th>
+      <th colspan=2 style="background-color:#660099;color:#ffffff;font-family:Verdana, sans-serif;font-size:8pt;text-align:left;width:180px></th>
     </tr>
 
     <tr>
@@ -117,6 +117,11 @@
 
   </table>
 
+  <pre>
+
+
+  </pre>
+
   <b> Client Alert Summary: </b><br />
 
   <table style="text-align:left;width:600px;margin-left:auto;margin-right:auto;">
@@ -125,8 +130,19 @@
     </tr>
     <% for @k, @v in @sensu_config['additional_alerts'] %>
     <tr>
-      <td style="background-color:#F2F2F2;width:50px"><%= @k %></td>
-      <td style="background-color:#D9D9D9;width:50px"><%= @v %></td>
+      <td style="background-color:#D9D9D9;width:50px"><%= @k %></td>
+      <% if @v == 'UNKNOWN' %>
+        <% @row_style = 'color:#FF6600;background-color:#F2F2F2;width:50px;' %>
+      <% elsif @v == 'CRITICAL' %>
+        <% @row_style = 'color:#FF0000;background-color:#F2F2F2;width:50px;' %>
+        <% elsif @v == 'CONFIG ERROR' %>
+          <% @row_style = 'color:#FF0000;background-color:#F2F2F2;width:50px;' %>
+      <% elsif @v == 'WARNING' %>
+        <% @row_style = 'color:#B2B200;background-color:#F2F2F2;width:50px;' %>
+      <% else %>
+        <% @row_style = 'color:FF6600;background-color:#F2F2F2;width:50px;' %>
+      <% end %>
+      <td style="<%= @row_style %>"><%= @v %></td>
     </tr>
     <% end %>
   </table>
