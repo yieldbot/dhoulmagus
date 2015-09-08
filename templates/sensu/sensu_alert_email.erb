@@ -18,7 +18,7 @@
 
   <table style="text-align:left;width:600px;margin-left:auto;margin-right:auto;">
     <tr>
-      <th colspan=2 style="background-color:#660099;color:#ffffff;font-family:Verdana, sans-serif;font-size:8pt;text-align:left;width:180px;"></th>
+      <th colspan=2 style="background-color:#660099;color:#ffffff;font-family:Verdana, sans-serif;font-size:8pt;text-align:left;width:200px></th>
     </tr>
 
     <tr>
@@ -121,15 +121,14 @@
 
   <table style="text-align:left;width:600px;margin-left:auto;margin-right:auto;">
     <tr>
-      <th colspan=2 style="background-color:#660099;color:#ffffff;font-family:Verdana, sans-serif;font-size:8pt;text-align:left;width:180px;"></th>
+      <th colspan=2 style="background-color:#660099;color:#ffffff;font-family:Verdana, sans-serif;font-size:8pt;text-align:left;width:100px;table-layout:fixed;"></th>
     </tr>
-    <% @sensu_config['additional_alerts'].each |k, v| %>
+    <% for @k, @v in @sensu_config['additional_alerts'] %>
     <tr>
-    <td style="background-color:#F2F2F2;"><%= k %></td>
-    <td style="background-color:#D9D9D9;"><%= v %></td>
+      <td style="background-color:#F2F2F2;width:50px"><%= @k %></td>
+      <td style="background-color:#D9D9D9;width:50px"><%= @v %></td>
     </tr>
-    </table>
-
-  <%= @sensu_config['additional_alerts'] %>
+    <% end %>
+  </table>
 </body>
 </html>

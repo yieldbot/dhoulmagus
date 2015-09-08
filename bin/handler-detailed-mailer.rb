@@ -38,6 +38,10 @@ class DetailedMailer < Sensu::Handler
     settings[product][name]
   end
 
+  def clean_output
+    @event['check']['output'].partition(':')[0]
+  end
+
   # Acquire any client or device specific information about the
   # monitoring infrastructure
   #
@@ -156,17 +160,12 @@ class DetailedMailer < Sensu::Handler
 
   def acquire_alerts
     out = api_request(:GET, "/events/#{@event['client']['name']}")
-    #alerts = []
 
-    #JSON.parse(out.body).each do |a|
-    #  alerts << {a['check']['name'] => define_status(a['check']['status'])}
-    #end
-
-alerts = {}
-JSON.parse(out.body).each do |a|
-alerts[a['check']['name']] = a['check']['status']
-end
-    alerts
+    alerts = {}
+    JSON.parse(out.body).each do |a|
+      alerts[a['check']['name']] = define_status(a['check']['status'])
+    end
+    alerts.sort
   end
 
   def acquire_monitored_instance
@@ -194,7 +193,7 @@ end
         'check_data'            => check_data, # any additional user supplied data
         'notification_comment'  => '', # the comment added to a check to silence it
         'notification_author'   => '', # the user that silenced the check
-        'check_output'          => @event['check']['output'],
+        'check_output'          => clean_output,
         'sensu_env'             => define_sensu_env,
         'notification_type'     => define_notification_type,
         'check_state_duration'  => define_check_state_duration,
