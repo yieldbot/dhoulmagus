@@ -95,8 +95,8 @@ class DetailedMailer < Sensu::Handler
   # @example Set the status of the check to WARNING
   #   "define_status" #=> "WARNING
   # @return [string] The status of the check
-  def define_status
-    case @event['check']['status']
+  def define_status(event)
+    case event
     when 0
       return 'OK'
     when 1
@@ -154,6 +154,16 @@ class DetailedMailer < Sensu::Handler
     ''
   end
 
+  def acquire_alerts
+    out = api_request(:GET, "/events/#{@event['client']['name']}")
+    alerts = []
+
+    out.body.each do |a|
+      alerts << {a['check']['name'] => define_status(a['check']['status'])}
+    end
+    alerts
+  end
+
   def acquire_monitored_instance
     @event['client']['name']
   end
@@ -175,7 +185,7 @@ class DetailedMailer < Sensu::Handler
         'incident_timestamp'    => Time.at(@event['check']['issued']),
         'instance_address'      => @event['client']['address'],
         'check_name'            => @event['check']['name'],
-        'check_state'           => define_status,
+        'check_state'           => define_status(@event['check']['status']),
         'check_data'            => check_data, # any additional user supplied data
         'notification_comment'  => '', # the comment added to a check to silence it
         'notification_author'   => '', # the user that silenced the check
@@ -184,6 +194,7 @@ class DetailedMailer < Sensu::Handler
         'notification_type'     => define_notification_type,
         'check_state_duration'  => define_check_state_duration,
         'mail_template'         => "#{@template_path}/sensu/sensu_alert_email.erb"
+        'additional_alerts'     => acquire_alerts
       }
       @mail_subject = "#{define_sensu_env} #{define_notification_type}  #{@sensu_config['check_name']} on #{@sensu_config['monitored_instance']} is #{@sensu_config['check_state']}"
     end
