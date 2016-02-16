@@ -235,7 +235,7 @@ class DetailedMailer < Sensu::Handler
     # create and render the email msg #
     #                                 #
     ###################################
-    gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.delete("\n", '')
+    gem_base = `/opt/sensu/embedded/bin/gem environment gemdir`.gsub("\n", '')
     @template_path = "#{gem_base}/gems/dhoulmagus-#{Dhoulmagus::Version::STRING}/templates"
     template_vars(source)
     renderer = ERB.new(File.read(@sensu_config['mail_template']))
