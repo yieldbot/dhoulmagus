@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dhoulmagus (0.0.44)
+    dhoulmagus (0.0.45)
       mail (= 2.5.4)
       sensu-plugin (= 1.2.0)
 
@@ -76,4 +76,4 @@ DEPENDENCIES
   yard (~> 0.8)
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
