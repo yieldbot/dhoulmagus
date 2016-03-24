@@ -14,4 +14,3 @@ mkmf.log
 .DS_Store
 .idea/*
 .gem
-Gemfile.lock
