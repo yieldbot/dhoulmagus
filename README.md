@@ -1,4 +1,4 @@
-# Dhoulmagus
+# Dhoulmagus 
 
 Detailed email script with erb templates for rich messages
 
