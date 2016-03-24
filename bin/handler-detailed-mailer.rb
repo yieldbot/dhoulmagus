@@ -158,16 +158,6 @@ class DetailedMailer < Sensu::Handler
     ''
   end
 
-  # def acquire_alerts
-  #   out = api_request(:GET, "/events/#{@event['client']['name']}")
-
-  #   alerts = {}
-  #   JSON.parse(out.body).each do |a|
-  #     alerts[a['check']['name']] = define_status(a['check']['status'])
-  #   end
-  #   alerts.sort
-  # end
-
   def acquire_monitored_instance
     @event['client']['name']
   end
@@ -198,7 +188,6 @@ class DetailedMailer < Sensu::Handler
         'notification_type'     => define_notification_type,
         'check_state_duration'  => define_check_state_duration,
         'mail_template'         => "#{@template_path}/sensu/sensu_alert_email.erb",
-        # 'additional_alerts'     => acquire_alerts
       }
       @mail_subject = "#{define_sensu_env} #{define_notification_type}  #{@sensu_config['check_name']} on #{@sensu_config['monitored_instance']} is #{@sensu_config['check_state']}"
     end
